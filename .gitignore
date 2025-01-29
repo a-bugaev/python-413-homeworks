@@ -1,2 +1,2 @@
-venv13
-venv13/*
+/**/__pycache__/**
+.gitignore
