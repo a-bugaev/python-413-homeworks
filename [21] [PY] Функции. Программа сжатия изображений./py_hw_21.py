@@ -4,7 +4,6 @@
 Оптимизатор изображений v2.0
 """
 
-import sys
 import os
 from time import sleep
 import pillow_avif
@@ -61,7 +60,7 @@ def get_images_disk_space_mb(images_paths: list[str]) -> float:
     _bytes = 0
     for image_path in images_paths:
         _bytes += os.stat(image_path).st_size
-    return _bytes / (1024**2)
+    return _bytes / 1024 / 1024
 
 
 def compress_image(
@@ -130,8 +129,8 @@ def main() -> None:
 
     for image_path in images_paths:
         compress_image(image_path, output_format, int(quality))
-        sleep(0.5)
-        progress_in_kb += round(get_images_disk_space_mb([image_path]) * 1024)
+        progress_in_kb = round(get_images_disk_space_mb([image_path]) * 1024)
+        # Increment to add to the internal counter of iterations
         progressbar.update(progress_in_kb)
     progressbar.close()
 
