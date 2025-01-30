@@ -7,7 +7,7 @@ import csv
 import yaml
 
 
-def read_json(file_path: str, encoding: str = "utf-8"):
+def read_json(file_path: str, encoding: str = "utf-8") -> any:
     """
     Читает данные из JSON-файла.
     """
@@ -16,7 +16,7 @@ def read_json(file_path: str, encoding: str = "utf-8"):
         return data
 
 
-def write_json(*data: dict, file_path: str, encoding: str = "utf-8"):
+def write_json(*data: dict, file_path: str, encoding: str = "utf-8") -> None:
     """
     Записывает данные в JSON-файл.
     """
@@ -27,7 +27,7 @@ def write_json(*data: dict, file_path: str, encoding: str = "utf-8"):
         json.dump(batch, file, ensure_ascii=False, indent=4, separators=(",", ": "))
 
 
-def append_json(*data: dict, file_path: str, encoding: str = "utf-8"):
+def append_json(*data: dict, file_path: str, encoding: str = "utf-8") -> None:
     """
     Добавляет данные в существующий JSON-файл.
     """
@@ -39,7 +39,7 @@ def append_json(*data: dict, file_path: str, encoding: str = "utf-8"):
         json.dump(existing_data, json_file, indent=4, separators=(",", ": "))
 
 
-def read_csv(file_path: str, delimiter=";", encoding: str = "utf-8-sig"):
+def read_csv(file_path: str, delimiter=";", encoding: str = "utf-8-sig") -> list:
     """
     Читает данные из CSV-файла.
     """
@@ -51,7 +51,7 @@ def read_csv(file_path: str, delimiter=";", encoding: str = "utf-8-sig"):
         return output
 
 
-def write_csv(*data: dict, file_path, delimiter=";", encoding: str = "utf-8-sig"):
+def write_csv(*data: dict, file_path, delimiter=";", encoding: str = "utf-8-sig") -> None:
     """
     Записывает данные в CSV-файл.
     """
@@ -65,7 +65,7 @@ def write_csv(*data: dict, file_path, delimiter=";", encoding: str = "utf-8-sig"
                 writer.writerow(row)
 
 
-def append_csv(*data: dict, file_path, delimiter=";", encoding: str = "utf-8-sig"):
+def append_csv(*data: dict, file_path, delimiter=";", encoding: str = "utf-8-sig") -> None:
     """
     Добавляет данные в существующий CSV-файл.
     """
@@ -77,7 +77,7 @@ def append_csv(*data: dict, file_path, delimiter=";", encoding: str = "utf-8-sig
                 writer.writerow(row)
 
 
-def read_txt(file_path: str, encoding: str = "utf-8"):
+def read_txt(file_path: str, encoding: str = "utf-8") -> str:
     """
     Читает данные из текстового файла.
     """
@@ -86,7 +86,7 @@ def read_txt(file_path: str, encoding: str = "utf-8"):
         return content
 
 
-def write_txt(*data: str, file_path, encoding: str = "utf-8"):
+def write_txt(*data: str, file_path, encoding: str = "utf-8") -> None:
     """
     Записывает данные в текстовый файл.
     """
@@ -95,7 +95,7 @@ def write_txt(*data: str, file_path, encoding: str = "utf-8"):
             file.write(item)
 
 
-def append_txt(*data: str, file_path, encoding: str = "utf-8"):
+def append_txt(*data: str, file_path, encoding: str = "utf-8") -> None:
     """
     Добавляет данные в конец текстового файла.
     """
@@ -104,7 +104,7 @@ def append_txt(*data: str, file_path, encoding: str = "utf-8"):
             file.write(item)
 
 
-def read_yaml(file_path: str, encoding: str = "utf-8"):
+def read_yaml(file_path: str, encoding: str = "utf-8") -> any:
     """
     Читает данные из YAML-файла.
     """
@@ -113,7 +113,7 @@ def read_yaml(file_path: str, encoding: str = "utf-8"):
         return data
 
 
-def write_yaml(*data: dict, file_path: str, encoding: str = "utf-8"):
+def write_yaml(*data: dict, file_path: str, encoding: str = "utf-8") -> None:
     """
     Записывает данные в YAML-файл.
     """
@@ -122,7 +122,7 @@ def write_yaml(*data: dict, file_path: str, encoding: str = "utf-8"):
             yaml.dump(item, file, default_flow_style=False)
 
 
-def append_yaml(*data: dict, file_path: str, encoding: str = "utf-8"):
+def append_yaml(*data: dict, file_path: str, encoding: str = "utf-8") -> None:
     """
     Добавляет данные в YAML-файл.
     """
