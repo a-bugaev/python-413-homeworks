@@ -2,12 +2,13 @@
     22. Функции работы с файлами
 """
 
+from typing import Any
 import json
 import csv
 import yaml
 
 
-def read_json(file_path: str, encoding: str = "utf-8") -> any:
+def read_json(file_path: str, encoding: str = "utf-8") -> Any:
     """
     Читает данные из JSON-файла.
     """
@@ -23,7 +24,7 @@ def write_json(*data: dict, file_path: str, encoding: str = "utf-8") -> None:
     with open(file_path, "w", encoding=encoding) as file:
         batch = data[0]
         for item in data[1:]:
-            batch.extend(item)
+            batch.update(item)
         json.dump(batch, file, ensure_ascii=False, indent=4, separators=(",", ": "))
 
 
@@ -104,7 +105,7 @@ def append_txt(*data: str, file_path, encoding: str = "utf-8") -> None:
             file.write(item)
 
 
-def read_yaml(file_path: str, encoding: str = "utf-8") -> any:
+def read_yaml(file_path: str, encoding: str = "utf-8") -> Any:
     """
     Читает данные из YAML-файла.
     """
