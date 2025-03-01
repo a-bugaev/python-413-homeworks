@@ -171,9 +171,9 @@ yaml_data = [
             "street": "123 Main St",
             "city": "Anytown",
             "state": "CA",
-            "zip": 12345
+            "zip": 12345,
         },
-        "hobbies": ["Reading", "Hiking", "Swimming"]
+        "hobbies": ["Reading", "Hiking", "Swimming"],
     },
     {
         "name": "Jane Smith",
@@ -182,9 +182,9 @@ yaml_data = [
             "street": "456 Elm St",
             "city": "Anytown",
             "state": "CA",
-            "zip": 12345
+            "zip": 12345,
         },
-        "hobbies": ["Painting", "Yoga", "Traveling"]
+        "hobbies": ["Painting", "Yoga", "Traveling"],
     },
     {
         "name": "Bob Johnson",
@@ -193,10 +193,10 @@ yaml_data = [
             "street": "789 Oak St",
             "city": "Anytown",
             "state": "CA",
-            "zip": 12345
+            "zip": 12345,
         },
-        "hobbies": ["Cooking", "Gardening", "Fishing"]
-    }
+        "hobbies": ["Cooking", "Gardening", "Fishing"],
+    },
 ]
 
 write_yaml(yaml_data, file_path="test.yaml")
@@ -205,7 +205,7 @@ write_yaml(yaml_data, file_path="test.yaml")
 #   test.yaml content:
 #
 #
-#- address:
+# - address:
 #    city: Anytown
 #    state: CA
 #    street: 123 Main St
@@ -216,7 +216,7 @@ write_yaml(yaml_data, file_path="test.yaml")
 #  - Hiking
 #  - Swimming
 #  name: John Doe
-#- address:
+# - address:
 #    city: Anytown
 #    state: CA
 #    street: 456 Elm St
@@ -227,7 +227,7 @@ write_yaml(yaml_data, file_path="test.yaml")
 #  - Yoga
 #  - Traveling
 #  name: Jane Smith
-#- address:
+# - address:
 #    city: Anytown
 #    state: CA
 #    street: 789 Oak St
@@ -245,7 +245,7 @@ print(read_yaml(file_path="test.yaml"))
 #
 #   printed content:
 #
-#[{'address': {'city': 'Anytown', 'state': 'CA', 'street': '123 Main St', 'zip': 12345}, 'age': 30, 'hobbies': ['Reading', 'Hiking', 'Swimming'], 'name': 'John Doe'}, {'address': {'city': 'Anytown', 'state': 'CA', 'street': '456 Elm St', 'zip': 12345}, 'age': 25, 'hobbies': ['Painting', 'Yoga', 'Traveling'], 'name': 'Jane Smith'}, {'address': {'city': 'Anytown', 'state': 'CA', 'street': '789 Oak St', 'zip': 12345}, 'age': 40, 'hobbies': ['Cooking', 'Gardening', 'Fishing'], 'name': 'Bob Johnson'}]
+# [{'address': {'city': 'Anytown', 'state': 'CA', 'street': '123 Main St', 'zip': 12345}, 'age': 30, 'hobbies': ['Reading', 'Hiking', 'Swimming'], 'name': 'John Doe'}, {'address': {'city': 'Anytown', 'state': 'CA', 'street': '456 Elm St', 'zip': 12345}, 'age': 25, 'hobbies': ['Painting', 'Yoga', 'Traveling'], 'name': 'Jane Smith'}, {'address': {'city': 'Anytown', 'state': 'CA', 'street': '789 Oak St', 'zip': 12345}, 'age': 40, 'hobbies': ['Cooking', 'Gardening', 'Fishing'], 'name': 'Bob Johnson'}]
 #
 
 more_yaml_data = [
@@ -256,9 +256,9 @@ more_yaml_data = [
             "street": "456 Elm St",
             "city": "Anytown",
             "state": "CA",
-            "zip": 12345
+            "zip": 12345,
         },
-        "hobbies": ["Painting", "Yoga", "Traveling"]
+        "hobbies": ["Painting", "Yoga", "Traveling"],
     },
     {
         "name": "Mike",
@@ -267,9 +267,9 @@ more_yaml_data = [
             "street": "789 Oak St",
             "city": "Anytown",
             "state": "CA",
-            "zip": 12345
+            "zip": 12345,
         },
-        "hobbies": ["Cooking", "Gardening", "Fishing"]
+        "hobbies": ["Cooking", "Gardening", "Fishing"],
     },
     {
         "name": "Greg",
@@ -278,10 +278,10 @@ more_yaml_data = [
             "street": "123 Main St",
             "city": "Anytown",
             "state": "CA",
-            "zip": 12345
+            "zip": 12345,
         },
-        "hobbies": ["Reading", "Hiking", "Swimming"]
-    }
+        "hobbies": ["Reading", "Hiking", "Swimming"],
+    },
 ]
 
 append_yaml(more_yaml_data, file_path="test.yaml")

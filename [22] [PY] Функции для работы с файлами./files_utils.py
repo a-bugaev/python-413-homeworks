@@ -25,7 +25,7 @@ def write_json(*data: dict, file_path: str, encoding: str = "utf-8") -> None:
         batch = data[0]
         for item in data[1:]:
             batch.update(item)
-        json.dump(batch, file, ensure_ascii=False, indent=4, separators=(",", ": "))
+        json.dump(batch, file, ensure_ascii=False, indent=4, separators=(", ", ": "))
 
 
 def append_json(*data: dict, file_path: str, encoding: str = "utf-8") -> None:
