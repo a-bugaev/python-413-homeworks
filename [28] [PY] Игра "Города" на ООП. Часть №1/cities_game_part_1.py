@@ -9,7 +9,6 @@ from hw_27_file_classes import JsonFile  # file copypasted form hw27
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-
 @dataclass(order=True)
 class City:
     """
@@ -73,23 +72,21 @@ class CitiesSerializer:
         """
         return self.__cities
 
+if __name__ == "__main__":
+    cities_file = JsonFile("cities.json")
+    serializer = CitiesSerializer(cities_file.read())
+    full_list = serializer.get_all_cities()
 
-cities_file = JsonFile("cities.json")
-serializer = CitiesSerializer(cities_file.read())
-full_list = serializer.get_all_cities()
+    print(len(full_list))
 
-pprint(full_list)
+    print("\ntop 5 lowest population\n".upper())
+    full_list.sort(key=lambda x: float(x.population), reverse=False)
+    pprint(full_list[:5])
 
-print(len(full_list))
+    print("\ntop 5 northest\n".upper())
+    full_list.sort(key=lambda x: float(x.latitude), reverse=True)
+    pprint(full_list[:5])
 
-print("\ntop 5 lowest population\n".upper())
-full_list.sort(key=lambda x: float(x.population), reverse=False)
-pprint(full_list[:5])
-
-print("\ntop 5 northest\n".upper())
-full_list.sort(key=lambda x: float(x.latitude), reverse=True)
-pprint(full_list[:5])
-
-print("\ntop 5 westest\n".upper())
-full_list.sort(key=lambda x: float(x.longitude), reverse=False)
-pprint(full_list[:5])
+    print("\ntop 5 westest\n".upper())
+    full_list.sort(key=lambda x: float(x.longitude), reverse=False)
+    pprint(full_list[:5])
