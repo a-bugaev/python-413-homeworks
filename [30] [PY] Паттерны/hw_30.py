@@ -108,4 +108,4 @@ if __name__ == "__main__":
     ]
 
     for text_for_test in test_data:
-        print(f"'{text_for_test}' is {'' if facade.check_palindrome(text_for_test) else 'not'} palindrome")
+        print(f"'{text_for_test}' is{' ' if facade.check_palindrome(text_for_test) else ' not '}palindrome")

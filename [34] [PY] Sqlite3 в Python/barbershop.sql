@@ -1,14 +1,16 @@
--- HW 33: Barbershop db
+-- HW 34, part 1
+PRAGMA foreign_keys = OFF;
+
+BEGIN TRANSACTION;
 
 -- 1. Создание таблиц и связей
-
 -- a. Запись на услуги
-
 CREATE TABLE appointments (
     id INTEGER PRIMARY KEY,
     client_name TEXT NOT NULL,
     phone TEXT NOT NULL,
     Date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    comment TEXT,
     master_id INTEGER NOT NULL,
     status TEXT NOT NULL CHECK (
         status IN (
@@ -57,6 +59,24 @@ CREATE TABLE appointments_services (
     FOREIGN KEY (service_id) REFERENCES services (id)
 );
 
+-- 1.5 (HW_34) Добавление индексов
+-- все индексы ниже созданы для (предположительно) наиболее часто используемых колонок/таблиц
+-- appointments_services
+CREATE INDEX appointments_services_idx ON appointments_services (appointment_id, service_id);
+
+-- ускорит поиск записи по названию услуги и наоборот
+-- masters_services
+CREATE INDEX masters_services_idx ON masters_services (master_id, service_id);
+
+-- ускорит поиск услуги по мастеру и наоборот
+-- appointments
+CREATE INDEX appointments_idx ON appointments (master_id);
+
+-- ускорит поиск записей к конкретному мастеру
+-- services
+CREATE INDEX services_idx ON services (title);
+
+-- ускорит поиск услуг по названию
 -- 2. Внесение данных
 -- Мастера
 INSERT INTO
@@ -87,25 +107,40 @@ VALUES
 
 -- Добавление записей на услуги
 INSERT INTO
-    appointments (client_name, phone, master_id, status)
+    appointments (
+        client_name,
+        phone,
+        master_id,
+        comment,
+        status
+    )
 VALUES
-    ('Клиент Первый', '2233445566', 1, 'Подана заявка'),
+    (
+        'Клиент Первый',
+        '2233445566',
+        1,
+        'текст комментария для Первого',
+        'Подана заявка'
+    ),
     (
         'Клиентка Вторая',
         '7788991122',
         2,
+        'текст комментария для Второй',
         'Запись подтверждена'
     ),
     (
         'Клиент Третий',
         '2233445566',
         1,
+        'текст комментария для Третьего',
         'Услуга оплачена'
     ),
     (
         'Клиентка Четвертая',
         '7788991122',
         2,
+        'текст комментария для Четвёртой',
         'Услуга оказана'
     );
 
@@ -117,3 +152,7 @@ VALUES
     (2, 2),
     (3, 2),
     (4, 3);
+
+COMMIT;
+
+PRAGMA foreign_keys = ON;

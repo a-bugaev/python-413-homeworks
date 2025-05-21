@@ -164,7 +164,8 @@ WHERE
 -- 13
 SELECT
     name,
-    APPEARANCES
+    APPEARANCES,
+    ALIVE
 FROM
     MarvelCharacters
 WHERE
@@ -175,7 +176,9 @@ WHERE
             MarvelCharacters
         WHERE
             ALIVE = 'Living Characters'
-    );
+    )
+    AND ALIVE = 'Living Characters';
+-- rows: 3628
 
 -- 14
 SELECT
@@ -192,7 +195,9 @@ WHERE
             MarvelCharacters
         WHERE
             HAIR = 'White Hair'
-    );
+    )
+    AND HAIR = 'White Hair';
+-- rows: 1
 
 -- 15
 SELECT
