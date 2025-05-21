@@ -100,9 +100,14 @@ INSERT INTO
     masters_services (master_id, service_id)
 VALUES
     (1, 1),
+    (1, 2),
+    (1, 3),
+    (1, 4),
+    (1, 5),
+    (2, 1),
     (2, 2),
     (2, 3),
-    (1, 4),
+    (2, 4),
     (2, 5);
 
 -- Добавление записей на услуги
@@ -149,8 +154,10 @@ INSERT INTO
     appointments_services (appointment_id, service_id)
 VALUES
     (1, 1),
+    (1, 4),
     (2, 2),
     (3, 2),
+    (3, 3),
     (4, 3);
 
 COMMIT;

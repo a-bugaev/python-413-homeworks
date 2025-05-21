@@ -4,8 +4,6 @@ HW 34: sqlite3
 
 import os
 import sqlite3
-
-# import tabulate
 import pprint
 
 DB_FILE = "./barbershop.db"
@@ -46,11 +44,35 @@ def find_master_id_by_name(conn, master_name_fio: str) -> int:
     if len(fetch_out) == 0:
         raise ValueError(f"Master with name {master_name_fio} not found")
     if not isinstance(fetch_out[0][0], int):
-        raise ValueError(f"Master with name {master_name_fio} has not index")
+        raise ValueError(f"Master with name {master_name_fio} has not id")
 
     cursor.close()
 
     return fetch_out[0][0]
+
+
+def find_master_name_by_id(conn, master_id: int) -> str:
+    """
+    Finds a master name by id
+    """
+
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT last_name, first_name, middle_name FROM masters WHERE id=?",
+        (str(master_id)),
+    )
+
+    fetch_out = cursor.fetchall()
+
+    if len(fetch_out) == 0:
+        raise ValueError(f"Master with id {master_id} not found")
+
+    if not any(isinstance(name_part, str) for name_part in fetch_out[0]):
+        raise ValueError(f"Data type error for master with id {master_id}")
+
+    cursor.close()
+
+    return " ".join(fetch_out[0])
 
 
 def find_service_id_by_name(conn, service_title: str) -> int:
@@ -65,7 +87,26 @@ def find_service_id_by_name(conn, service_title: str) -> int:
     if len(fetch_out) == 0:
         raise ValueError(f"Service with name {service_title} not found")
     if not isinstance(fetch_out[0][0], int):
-        raise ValueError(f"Service with name {service_title} has not index")
+        raise ValueError(f"Service with name {service_title} has not id")
+
+    cursor.close()
+
+    return fetch_out[0][0]
+
+
+def find_service_name_by_id(conn, service_id: int) -> str:
+    """
+    Finds a service title by id
+    """
+    cursor = conn.cursor()
+    cursor.execute("SELECT title FROM services WHERE id=?", (str(service_id),))
+
+    fetch_out = cursor.fetchall()
+
+    if len(fetch_out) == 0:
+        raise ValueError(f"Service with id {service_id} not found")
+    if not isinstance(fetch_out[0][0], str):
+        raise ValueError(f"Data type error for service with id {service_id}")
 
     cursor.close()
 
@@ -73,7 +114,27 @@ def find_service_id_by_name(conn, service_title: str) -> int:
 
 
 def find_service_ids_for_appointment(conn, appointment_id: int) -> list[int]:
-    
+    """
+    Finds all services by appointment id
+    """
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT service_id FROM appointments_services WHERE appointment_id=?",
+        (appointment_id,),
+    )
+
+    fetch_out = cursor.fetchall()
+
+    if len(fetch_out) == 0:
+        raise ValueError(f"No services for appointment with id {appointment_id}")
+
+    services_ids = []
+    for service in fetch_out:
+        if not isinstance(service[0], int):
+            raise ValueError("Index data type error")
+        services_ids.append(service[0])
+
+    return services_ids
 
 
 def find_appointments_by_phone(conn, phone: str) -> list[tuple]:
@@ -84,16 +145,41 @@ def find_appointments_by_phone(conn, phone: str) -> list[tuple]:
     cursor.execute("SELECT * FROM appointments WHERE phone=?", (phone,))
     appointments = cursor.fetchall()
     cursor.close()
-    # appontment structure:
-    # id
-    # client_name
-    # phone
-    # Date
-    # comment
-    # master_id
-    # status
 
-    return appointments
+    # appontment tuple structure:
+    # 0 - id
+    # 1 - client_name
+    # 2 - phone
+    # 3 - Date
+    # 4 - comment
+    # 5 - master_id
+    # 6 - status
+
+    hr_list: list[tuple] = []
+
+    for appointment in appointments:
+
+        master_name = find_master_name_by_id(conn, int(appointment[5]))
+
+        services_list: list[str] = []
+        for service_id in find_service_ids_for_appointment(conn, appointment[0]):
+            services_list.append(find_service_name_by_id(conn, service_id))
+        services_hr = ", ".join(services_list)
+
+        hr_tuple = (
+            f"Appointment ID: {appointment[0]}",
+            f"Client name: {appointment[1]}",
+            f"Client phone number: {appointment[2]}",
+            f"DateTime of creation: {appointment[3]}",
+            f"Comment: {appointment[4]}",
+            f"Master name: {master_name}",
+            f"Services: {services_hr}",
+            f"Status: {appointment[6]}",
+        )
+
+        hr_list.append(hr_tuple)
+
+    return hr_list
 
 
 def find_appointments_by_comment(conn, comment_part: str) -> list[tuple]:
@@ -107,12 +193,40 @@ def find_appointments_by_comment(conn, comment_part: str) -> list[tuple]:
     )
     appointments = cursor.fetchall()
     cursor.close()
-    return appointments
-    # return tabulate.tabulate(
-    #     appointments,
-    #     headers=["ID", "Name", "Phone", "DateTime", "Comment", "Master ID", "Status"],
-    #     tablefmt="grid",
-    # )
+
+    # appontment tuple structure:
+    # 0 - id
+    # 1 - client_name
+    # 2 - phone
+    # 3 - Date
+    # 4 - comment
+    # 5 - master_id
+    # 6 - status
+
+    hr_list: list[tuple] = []
+
+    for appointment in appointments:
+        master_name = find_master_name_by_id(conn, int(appointment[5]))
+
+        services_list: list[str] = []
+        for service_id in find_service_ids_for_appointment(conn, appointment[0]):
+            services_list.append(find_service_name_by_id(conn, service_id))
+        services_hr = ", ".join(services_list)
+
+        hr_tuple = (
+            f"Appointment ID: {appointment[0]}",
+            f"Client name: {appointment[1]}",
+            f"Client phone number: {appointment[2]}",
+            f"DateTime of creation: {appointment[3]}",
+            f"Comment: {appointment[4]}",
+            f"Master name: {master_name}",
+            f"Services: {services_hr}",
+            f"Status: {appointment[6]}",
+        )
+
+        hr_list.append(hr_tuple)
+
+    return hr_list
 
 
 def create_appointment(
@@ -180,13 +294,13 @@ if __name__ == "__main__":
     sql_str = read_sql_file(SQL_FILE)
     execute_script(conn_inst, sql_str)
 
-    # print("Найти запись по номеру телефона 2233445566:")
-    # pprint.pprint(find_appointments_by_phone(conn_inst, "2233445566"))
-    # print("\n")
+    print("Найти запись по номеру телефона 2233445566:")
+    pprint.pprint(find_appointments_by_phone(conn_inst, "2233445566"))
+    print("")
 
-    # print("Найти запись по частичному совпадению комментария (Третьего):")
-    # pprint.pprint(find_appointments_by_comment(conn_inst, "Третьего"))
-    # print("\n")
+    print("Найти запись по частичному совпадению комментария ('Третьего'):")
+    pprint.pprint(find_appointments_by_comment(conn_inst, "Третьего"))
+    print("")
 
     print("Найти ID мастера по ФИО Иванова Татьяна Михайловна:")
     print(find_master_id_by_name(conn_inst, "Иванова Татьяна Михайловна"), "\n")
@@ -194,17 +308,17 @@ if __name__ == "__main__":
     print("Найти ID услуги по названию Стрижка мужская модельная:")
     print(find_service_id_by_name(conn_inst, "Стрижка мужская модельная"), "\n")
 
-    # print("Создать запись:")
-    # print(
-    #     create_appointment(
-    #         conn_inst,
-    #         "Иванов Иван Иванович",
-    #         "89101234567",
-    #         "Сидоров Василий Петрович",
-    #         ["Стрижка мужская модельная", "Стайлинг бороды"],
-    #         "коммент",
-    #     ),
-    #     "\n",
-    # )
+    print("Создать запись:")
+    print(
+        create_appointment(
+            conn_inst,
+            "Иванов Иван Иванович",
+            "89101234567",
+            "Сидоров Василий Петрович",
+            ["Стрижка мужская модельная", "Стайлинг бороды"],
+            "коммент",
+        ),
+        "\n",
+    )
 
     conn_inst.close()
