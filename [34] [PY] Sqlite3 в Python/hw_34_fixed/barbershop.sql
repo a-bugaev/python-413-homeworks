@@ -112,7 +112,13 @@ VALUES
 
 -- Добавление записей на услуги
 INSERT INTO
-    appointments (client_name, phone, master_id, comment, status)
+    appointments (
+        client_name,
+        phone,
+        master_id,
+        comment,
+        status
+    )
 VALUES
     (
         'Клиент Первый',
@@ -157,16 +163,3 @@ VALUES
 COMMIT;
 
 PRAGMA foreign_keys = ON;
-
-SELECT
-    appointments.*,
-    services.title AS service_title,
-    masters.last_name || ' ' || masters.first_name || ' ' || masters.middle_name AS master_fio
-FROM
-    appointments
-    JOIN appointments_services ON appointments_services.appointment_id = appointments.id
-    JOIN services ON appointments_services.service_id = services.id
-    JOIN masters ON masters.id = appointments.master_id
-WHERE
-    appointments.comment LIKE '%Третьего%';
-

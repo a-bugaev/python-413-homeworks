@@ -142,41 +142,9 @@ def find_appointments_by_phone(conn, phone: str) -> list[tuple]:
     Finds an appointment by phone number
     """
     cursor = conn.cursor()
-    cursor.execute("""
-            SELECT
-                appointments.id,
-                appointments.client_name,
-                appointments.phone AS client_phone,
-                appointments.Date,
-                appointments.comment,
-                appointments.status,
-                STRING_AGG (services.title, ', ') AS service_titles,
-                masters.last_name || ' ' || masters.first_name || ' ' || masters.middle_name AS master_fio
-            FROM
-                appointments
-                JOIN appointments_services ON appointments_services.appointment_id = appointments.id
-                JOIN services ON appointments_services.service_id = services.id
-                JOIN masters ON masters.id = appointments.master_id
-            WHERE
-                appointments.phone = ?
-            GROUP BY
-                appointments.id,
-                appointments.client_name,
-                appointments.phone,
-                appointments.Date,
-                appointments.comment,
-                masters.last_name,
-                masters.first_name,
-                masters.middle_name,
-                appointments.status;
-        """,
-        (phone,),
-    )
+    cursor.execute("SELECT * FROM appointments WHERE phone=?", (phone,))
     appointments = cursor.fetchall()
     cursor.close()
-
-    if len(appointments) == 0:
-        raise ValueError(f'Appontments with comment part "{comment_part}" not found')
 
     # appontment tuple structure:
     # 0 - id
@@ -184,29 +152,32 @@ def find_appointments_by_phone(conn, phone: str) -> list[tuple]:
     # 2 - phone
     # 3 - Date
     # 4 - comment
-    # 5 - status
-    # 6 - service_titles
-    # 7 - master_fio
+    # 5 - master_id
+    # 6 - status
 
     hr_list: list[tuple] = []
 
     for appointment in appointments:
-        hr_column_names_tuple = (
-            "Appointment ID:",
-            "Client name:",
-            "Client phone number:",
-            "DateTime of creation:",
-            "Comment:",
-            "Status:",
-            "Services:",
-            "Master FIO:",
+
+        master_name = find_master_name_by_id(conn, int(appointment[5]))
+
+        services_list: list[str] = []
+        for service_id in find_service_ids_for_appointment(conn, appointment[0]):
+            services_list.append(find_service_name_by_id(conn, service_id))
+        services_hr = ", ".join(services_list)
+
+        hr_tuple = (
+            f"Appointment ID: {appointment[0]}",
+            f"Client name: {appointment[1]}",
+            f"Client phone number: {appointment[2]}",
+            f"DateTime of creation: {appointment[3]}",
+            f"Comment: {appointment[4]}",
+            f"Master name: {master_name}",
+            f"Services: {services_hr}",
+            f"Status: {appointment[6]}",
         )
 
-        hr_list.append(
-            tuple(
-                f"{text} {str(value)}" for text, value in zip(hr_column_names_tuple, appointment)
-            )
-        )
+        hr_list.append(hr_tuple)
 
     return hr_list
 
@@ -216,41 +187,12 @@ def find_appointments_by_comment(conn, comment_part: str) -> list[tuple]:
     Finds appointments by comment part
     """
     cursor = conn.cursor()
-    cursor.execute("""
-            SELECT
-                appointments.id,
-                appointments.client_name,
-                appointments.phone AS client_phone,
-                appointments.Date,
-                appointments.comment,
-                appointments.status,
-                STRING_AGG (services.title, ', ') AS service_titles,
-                masters.last_name || ' ' || masters.first_name || ' ' || masters.middle_name AS master_fio
-            FROM
-                appointments
-                JOIN appointments_services ON appointments_services.appointment_id = appointments.id
-                JOIN services ON appointments_services.service_id = services.id
-                JOIN masters ON masters.id = appointments.master_id
-            WHERE
-                appointments.comment LIKE ?
-            GROUP BY
-                appointments.id,
-                appointments.client_name,
-                appointments.phone,
-                appointments.Date,
-                appointments.comment,
-                masters.last_name,
-                masters.first_name,
-                masters.middle_name,
-                appointments.status;
-        """,
-        (f"%{comment_part}%",),
+    cursor.execute(
+        "SELECT * FROM appointments WHERE comment LIKE ?",
+        ("%" + comment_part + "%",),
     )
     appointments = cursor.fetchall()
     cursor.close()
-
-    if len(appointments) == 0:
-        raise ValueError(f'Appontments with comment part "{comment_part}" not found')
 
     # appontment tuple structure:
     # 0 - id
@@ -258,29 +200,31 @@ def find_appointments_by_comment(conn, comment_part: str) -> list[tuple]:
     # 2 - phone
     # 3 - Date
     # 4 - comment
-    # 5 - status
-    # 6 - service_titles
-    # 7 - master_fio
+    # 5 - master_id
+    # 6 - status
 
     hr_list: list[tuple] = []
 
     for appointment in appointments:
-        hr_column_names_tuple = (
-            "Appointment ID:",
-            "Client name:",
-            "Client phone number:",
-            "DateTime of creation:",
-            "Comment:",
-            "Status:",
-            "Services:",
-            "Master FIO:",
+        master_name = find_master_name_by_id(conn, int(appointment[5]))
+
+        services_list: list[str] = []
+        for service_id in find_service_ids_for_appointment(conn, appointment[0]):
+            services_list.append(find_service_name_by_id(conn, service_id))
+        services_hr = ", ".join(services_list)
+
+        hr_tuple = (
+            f"Appointment ID: {appointment[0]}",
+            f"Client name: {appointment[1]}",
+            f"Client phone number: {appointment[2]}",
+            f"DateTime of creation: {appointment[3]}",
+            f"Comment: {appointment[4]}",
+            f"Master name: {master_name}",
+            f"Services: {services_hr}",
+            f"Status: {appointment[6]}",
         )
 
-        hr_list.append(
-            tuple(
-                f"{text} {str(value)}" for text, value in zip(hr_column_names_tuple, appointment)
-            )
-        )
+        hr_list.append(hr_tuple)
 
     return hr_list
 
