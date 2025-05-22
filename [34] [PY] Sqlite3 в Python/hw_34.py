@@ -51,30 +51,6 @@ def find_master_id_by_name(conn, master_name_fio: str) -> int:
     return fetch_out[0][0]
 
 
-def find_master_name_by_id(conn, master_id: int) -> str:
-    """
-    Finds a master name by id
-    """
-
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT last_name, first_name, middle_name FROM masters WHERE id=?",
-        (str(master_id)),
-    )
-
-    fetch_out = cursor.fetchall()
-
-    if len(fetch_out) == 0:
-        raise ValueError(f"Master with id {master_id} not found")
-
-    if not any(isinstance(name_part, str) for name_part in fetch_out[0]):
-        raise ValueError(f"Data type error for master with id {master_id}")
-
-    cursor.close()
-
-    return " ".join(fetch_out[0])
-
-
 def find_service_id_by_name(conn, service_title: str) -> int:
     """
     Finds a service by title
@@ -92,49 +68,6 @@ def find_service_id_by_name(conn, service_title: str) -> int:
     cursor.close()
 
     return fetch_out[0][0]
-
-
-def find_service_name_by_id(conn, service_id: int) -> str:
-    """
-    Finds a service title by id
-    """
-    cursor = conn.cursor()
-    cursor.execute("SELECT title FROM services WHERE id=?", (str(service_id),))
-
-    fetch_out = cursor.fetchall()
-
-    if len(fetch_out) == 0:
-        raise ValueError(f"Service with id {service_id} not found")
-    if not isinstance(fetch_out[0][0], str):
-        raise ValueError(f"Data type error for service with id {service_id}")
-
-    cursor.close()
-
-    return fetch_out[0][0]
-
-
-def find_service_ids_for_appointment(conn, appointment_id: int) -> list[int]:
-    """
-    Finds all services by appointment id
-    """
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT service_id FROM appointments_services WHERE appointment_id=?",
-        (appointment_id,),
-    )
-
-    fetch_out = cursor.fetchall()
-
-    if len(fetch_out) == 0:
-        raise ValueError(f"No services for appointment with id {appointment_id}")
-
-    services_ids = []
-    for service in fetch_out:
-        if not isinstance(service[0], int):
-            raise ValueError("Index data type error")
-        services_ids.append(service[0])
-
-    return services_ids
 
 
 def find_appointments_by_phone(conn, phone: str) -> list[tuple]:
@@ -176,7 +109,7 @@ def find_appointments_by_phone(conn, phone: str) -> list[tuple]:
     cursor.close()
 
     if len(appointments) == 0:
-        raise ValueError(f'Appontments with comment part "{comment_part}" not found')
+        raise ValueError(f'Appontments with comment part "{phone}" not found')
 
     # appontment tuple structure:
     # 0 - id
