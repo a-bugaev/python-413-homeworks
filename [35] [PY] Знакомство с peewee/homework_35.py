@@ -14,6 +14,7 @@ from peewee import (
     DateTimeField,
     ForeignKeyField,
     CompositeKey,
+    Check
 )
 
 DB_FILE_PATH = "./barbershop.db"
@@ -52,11 +53,27 @@ class Appointment(Model):
     Описание таблицы записей на обслуживание
     """
 
-    client_name = CharField(max_length=100, null=False)
-    client_phone = CharField(max_length=20, null=False)
-    date = DateTimeField(default=datetime.now)
+    client_name = CharField(null=False)
+    client_phone = CharField(null=False)
+    timestump = DateTimeField(default=datetime.now().strftime(r"%Y-%m-%d %H:%M"))
+    comment = CharField(max_length=200)
     master = ForeignKeyField(Master, backref="appointments")
-    status = CharField(max_length=20, default="pending")
+    status = CharField(
+        null=False,
+        constraints=[
+            Check(
+                """
+                status IN (
+                    'Подана заявка',
+                    'Запись подтверждена',
+                    'Услуга оплачена',
+                    'Услуга оказана'
+                )
+                """.replace("    ", "")
+            )
+        ],
+        default="Подана заявка",
+    )
 
     class Meta:
         database = DB
@@ -136,28 +153,28 @@ def populate_db():
             "client_phone": "+70527416207",
             "master": masters[1],
             "status": "Подана заявка",
-            "date": "2025-05-15",
+            "comment": 'текст комментария для Первого',
         },
         {
             "client_name": "Клиентка Вторая",
             "client_phone": "+72655470674",
             "master": masters[2],
             "status": "Запись подтверждена",
-            "date": "2025-05-20",
+            "comment": 'текст комментария для Второй',
         },
         {
             "client_name": "Клиент Третий",
             "client_phone": "+39699848096",
             "master": masters[1],
             "status": "Услуга оплачена",
-            "date": "2025-05-22",
+            "comment": 'текст комментария для Третьего',
         },
         {
             "client_name": "Клиентка Четвертая",
             "client_phone": "+75926060365",
             "master": masters[2],
             "status": "Услуга оказана",
-            "date": "2025-05-24",
+            "comment": 'текст комментария для Четвёртой',
         },
     ]
     appointments = []
@@ -167,7 +184,7 @@ def populate_db():
             client_phone=data["client_phone"],
             master=data["master"],
             status=data["status"],
-            date=data["date"],
+            comment=data["comment"],
         )
         appointments.append(app.id)
 
@@ -191,10 +208,10 @@ def populate_db():
         {"appointment": appointments[0], "service": 4},
         {"appointment": appointments[1], "service": 2},
         {"appointment": appointments[1], "service": 3},
-        {"appointment": appointments[2], "service": 2},
-        {"appointment": appointments[2], "service": 3},
-        {"appointment": appointments[3], "service": 1},
-        {"appointment": appointments[3], "service": 5},
+        {"appointment": appointments[2], "service": 1},
+        {"appointment": appointments[2], "service": 5},
+        {"appointment": appointments[3], "service": 2},
+        {"appointment": appointments[3], "service": 3},
     ]
 
     AppointmentService.insert_many(appointment_service_data).execute()
@@ -213,10 +230,10 @@ def test_prints():
     for master in Master.select():
         print(
             f"""
-            ID: {master.id},
-            Имя: {master.first_name},
-            Фамилия: {master.last_name},
-            Отчество: {master.middle_name},
+            ID: {master.id}
+            Имя: {master.first_name}
+            Фамилия: {master.last_name}
+            Отчество: {master.middle_name}
             Телефон: {master.phone}
             """.replace(
                 "    ", ""
@@ -227,9 +244,9 @@ def test_prints():
     for service in Service.select():
         print(
             f"""
-            ID: {service.id},
-            Название: {service.title},
-            Описание: {service.description},
+            ID: {service.id}
+            Название: {service.title}
+            Описание: {service.description}
             Цена: {service.price}
             """.replace(
                 "    ", ""
@@ -244,13 +261,14 @@ def test_prints():
         services_str = ", ".join(service.service.title for service in appointment.services)
         print(
             f"""
-            ID: {appointment.id},
-            Имя Клиента: {appointment.client_name},
-            Телефон Клиента: {appointment.client_phone},
-            Дата: {appointment.date},
-            Мастер: {appointment.master.first_name} {appointment.master.last_name},
-            Статус: {appointment.status},
+            ID: {appointment.id}
+            Имя Клиента: {appointment.client_name}
+            Телефон Клиента: {appointment.client_phone}
+            Дата_Время: {appointment.timestump}
+            Мастер: {appointment.master.last_name} {appointment.master.first_name} {appointment.master.middle_name}
+            Статус: {appointment.status}
             Услуги: {services_str}
+            Комментарий: {appointment.comment}
             """.replace(
                 "    ", ""
             )
