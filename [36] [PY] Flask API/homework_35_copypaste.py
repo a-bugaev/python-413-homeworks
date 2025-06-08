@@ -20,7 +20,6 @@ from peewee import (
 DB_FILE_PATH = "./barbershop.db"
 DB = SqliteDatabase(DB_FILE_PATH)
 
-
 class Master(Model):
     """
     Описание таблицы мастеров
