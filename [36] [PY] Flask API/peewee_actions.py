@@ -4,7 +4,7 @@ peewee_actions.py: взаимодействие с бд
 """
 
 import os
-from peewee import SqliteDatabase
+from peewee import DoesNotExist
 from homework_35_copypaste import (
     Master,
     Appointment,
@@ -13,7 +13,12 @@ from homework_35_copypaste import (
     DB_FILE_PATH,
     DB,
 )
-from utils import *
+from utils import (
+    master_to_dict,
+    appointment_to_dict,
+    validate_master_data,
+    validate_appointment_data,
+)
 
 
 def get_all_masters() -> list[dict]:
@@ -22,33 +27,34 @@ def get_all_masters() -> list[dict]:
     :return:
     """
 
-    DB.connect()
-
-    masters = Master.select()
-    master_dicts = []
-    for master_inst in masters:
-        master_dicts.append(master_to_dict(master_inst))
-
-    DB.close()
+    try:
+        DB.connect()
+        masters = Master.select()
+        master_dicts = []
+        for master_inst in masters:
+            master_dicts.append(master_to_dict(master_inst))
+        DB.close()
+    except DoesNotExist as e:
+        raise DoesNotExist("Данные не найдены") from e
 
     return master_dicts
 
 
-def get_master_by_id(master_id: int) -> dict:
+def get_master_by_id(master_id: int) -> dict | None:
     """
     Получить информацию о мастере по ID
     :param master_id:
-    :return:
+    :return: dict
     """
 
-    DB.connect()
+    try:
+        DB.connect()
+        master_inst = Master.get(Master.id == master_id)  # type: ignore[attr-defined]
+        DB.close()
+    except DoesNotExist as e:
+        raise DoesNotExist(f"Нет мастера под ID {master_id}") from e
 
-    master_inst = Master.get(Master.id == master_id)
-    master_dict = master_to_dict(master_inst)
-
-    DB.close()
-
-    return master_dict
+    return master_to_dict(master_inst)
 
 
 def add_master(master_data: dict) -> int:
@@ -57,14 +63,13 @@ def add_master(master_data: dict) -> int:
     :param master_data:
     :return:
     """
+
     DB.connect()
-
     validate_master_data(master_data)
-    new_master_id = Master.create(**master_data)
-
+    new_master_obj = Master.create(**master_data)
     DB.close()
 
-    return new_master_id
+    return new_master_obj.id
 
 
 def update_master(master_id: int, master_data: dict) -> int:
@@ -77,9 +82,16 @@ def update_master(master_id: int, master_data: dict) -> int:
 
     DB.connect()
 
-    validate_master_data(master_data)
-    master_inst = Master.get(Master.id == master_id)
-    for key, value in master_data.items():
+    try:
+        master_inst = Master.get(Master.id == master_id)  # type: ignore[attr-defined]
+    except DoesNotExist as e:
+        raise DoesNotExist(f"Нет мастера под ID {master_id}") from e
+
+    src_master_dict = master_to_dict(master_inst)
+    upd_master_dict = {**src_master_dict, **master_data}
+    validate_master_data(upd_master_dict)
+
+    for key, value in upd_master_dict.items():
         setattr(master_inst, key, value)
     master_inst.save()
 
@@ -96,8 +108,10 @@ def delete_master(master_id: int) -> int:
     """
 
     DB.connect()
-
-    Master.get(Master.id == master_id).delete_instance()
+    try:
+        Master.get(Master.id == master_id).delete_instance()  # type: ignore[attr-defined]
+    except DoesNotExist as e:
+        raise DoesNotExist(f"Нет мастера под ID {master_id}") from e
 
     DB.close()
 
@@ -111,11 +125,15 @@ def get_all_appointments(sort_by: str = "id", direction: str = "asc") -> list[di
     """
     DB.connect()
 
-    sort_by = getattr(Appointment, sort_by)
-    if direction == "desc":
-        appointments = Appointment.select().order_by(sort_by).desc()
-    else:
-        appointments = Appointment.select().order_by(sort_by)
+    sort_by_attr = getattr(Appointment, sort_by)
+
+    try:
+        if direction == "desc":
+            appointments = Appointment.select().order_by(sort_by_attr.desc())
+        else:
+            appointments = Appointment.select().order_by(sort_by_attr)
+    except DoesNotExist as e:
+        raise DoesNotExist("Данные не найдены") from e
 
     appointments_dicts = []
     for appointment_inst in appointments:
@@ -124,7 +142,7 @@ def get_all_appointments(sort_by: str = "id", direction: str = "asc") -> list[di
 
     DB.close()
 
-    return
+    return appointments_dicts
 
 
 def get_appointment_by_id(appointment_id: int) -> dict:
@@ -136,7 +154,11 @@ def get_appointment_by_id(appointment_id: int) -> dict:
 
     DB.connect()
 
-    appointment_inst = Appointment.get_by_id(appointment_id)
+    try:
+        appointment_inst = Appointment.get_by_id(appointment_id)
+    except DoesNotExist as e:
+        raise DoesNotExist(f"Нет записи под ID {appointment_id}") from e
+
     appointment_dict = appointment_to_dict(appointment_inst)
 
     DB.close()
@@ -153,7 +175,10 @@ def get_all_appointments_by_master(master_id: int) -> list[dict]:
 
     DB.connect()
 
-    appointments_insts = Appointment.select().where(Appointment.master_id == master_id)
+    try:
+        appointments_insts = Appointment.select().where(Appointment.master == master_id)
+    except DoesNotExist as e:
+        raise DoesNotExist(f"Нет записей c мастером под ID {master_id}") from e
 
     appointments_dicts = []
     for appointments_inst in appointments_insts:
@@ -161,7 +186,24 @@ def get_all_appointments_by_master(master_id: int) -> list[dict]:
 
     DB.close()
 
-    return appointments
+    return appointments_dicts
+
+
+def add_appointment(appointment_data: dict) -> int:
+    """
+    Добавить новую запись на услугу
+    :param appointment_data: dict
+    :return: int - id созданной записи
+    """
+
+    DB.connect()
+
+    validate_appointment_data(appointment_data)
+    appointment_obj = Appointment.create(**appointment_data)
+
+    DB.close()
+
+    return appointment_obj.id
 
 
 def update_appointment(appointment_id: int, appointment_data: dict):
@@ -174,11 +216,21 @@ def update_appointment(appointment_id: int, appointment_data: dict):
 
     DB.connect()
 
-    validate_appointment_data(appointment_data)
-    appointment = get_appointment_by_id(appointment_id)
-    for key, value in appointment_data.items():
-        setattr(appointment, key, value)
-    appointment.save()
+    try:
+        appointment_inst = Appointment.get(
+            Appointment.id == appointment_id  # type: ignore[attr-defined]
+        )
+    except DoesNotExist as e:
+        raise DoesNotExist(f"Нет записи под ID {appointment_id}") from e
+
+    src_appointment_dict = appointment_to_dict(appointment_inst)
+    upd_appointment_dict = {**src_appointment_dict, **appointment_data}
+    validate_appointment_data(upd_appointment_dict)
+
+    for key, value in upd_appointment_dict.items():
+        setattr(appointment_inst, key, value)
+
+    appointment_inst.save()
 
     DB.close()
 
@@ -194,8 +246,13 @@ def delete_appointment(appointment_id: int) -> int:
 
     DB.connect()
 
-    appointment = get_appointment_by_id(appointment_id)
-    appointment.delete_instance()
+    try:
+        appointment = Appointment.get(
+            Appointment.id == appointment_id  # type: ignore[attr-defined]
+        )
+        appointment.delete_instance()
+    except DoesNotExist as e:
+        raise DoesNotExist(f"Нет записи под ID {appointment_id}") from e
 
     DB.close()
 
@@ -216,7 +273,8 @@ def check_db_file_existance():
     Проверяет, существует ли файл базы данных
     :return:
     """
-    return os.path.isfile(DB_FILE)
+    return os.path.isfile(DB_FILE_PATH)
+
 
 def check_tables_existance():
     """
@@ -224,3 +282,12 @@ def check_tables_existance():
     :return:
     """
     return Master.table_exists() and Appointment.table_exists()
+
+
+def remove_db_file():
+    """
+    Удаляет файл базы данных
+    :return:
+    """
+    if os.path.isfile(DB_FILE_PATH):
+        os.remove(DB_FILE_PATH)
