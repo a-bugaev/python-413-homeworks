@@ -13,10 +13,10 @@ from .pw_actions import (
     delete_master,
 )
 
-_masters_bp = Blueprint("masters", __name__, url_prefix="/masters")
+masters_bp = Blueprint("masters", __name__, url_prefix="/masters")
 
 
-@_masters_bp.route("/masters", methods=["GET"])
+@masters_bp.route("/masters", methods=["GET"])
 def ep_get_masters() -> tuple[str, int, dict]:
     """
     Получить список всех мастеров
@@ -38,7 +38,7 @@ def ep_get_masters() -> tuple[str, int, dict]:
     )
 
 
-@_masters_bp.route("/masters/<int:master_id>", methods=["GET"])
+@masters_bp.route("/masters/<int:master_id>", methods=["GET"])
 def ep_get_master_by_id(master_id: int) -> tuple[str, int, dict]:
     """
     Получить информацию о мастере по ID
@@ -62,7 +62,7 @@ def ep_get_master_by_id(master_id: int) -> tuple[str, int, dict]:
     )
 
 
-@_masters_bp.route("/masters", methods=["POST"])
+@masters_bp.route("/masters", methods=["POST"])
 def ep_add_master() -> tuple[str, int, dict]:
     """
     Добавить нового мастера
@@ -88,7 +88,7 @@ def ep_add_master() -> tuple[str, int, dict]:
     )
 
 
-@_masters_bp.route("/masters/<int:master_id>", methods=["PUT"])
+@masters_bp.route("/masters/<int:master_id>", methods=["PUT"])
 def ep_update_master(master_id: int) -> tuple[str, int, dict]:
     """
     Обновить информацию о мастере
@@ -124,7 +124,7 @@ def ep_update_master(master_id: int) -> tuple[str, int, dict]:
     )
 
 
-@_masters_bp.route("/masters/<int:master_id>", methods=["DELETE"])
+@masters_bp.route("/masters/<int:master_id>", methods=["DELETE"])
 def ep_delete_master(master_id: int) -> tuple[str, int, dict] | tuple[str, int]:
     """
     Удалить мастера
@@ -143,4 +143,27 @@ def ep_delete_master(master_id: int) -> tuple[str, int, dict] | tuple[str, int]:
 
     return "", 204
 
-masters_bp = _masters_bp
+@masters_bp.errorhandler(404)
+def not_found_handler(e) -> tuple[str, int, dict]:
+    """
+    универсальный хендлер для несуществующих адресов
+    """
+
+    return (
+        json.dumps({"'not found' fallback exception": str(e)}, ensure_ascii=False),
+        404,
+        {"Content-Type": "application/json; charset=utf-8"},
+    )
+
+
+@masters_bp.errorhandler(Exception)
+def fallback_handler(e) -> tuple[str, int, dict]:
+    """
+    вернёт краткие данные в json формате о необработанных исключениях
+    """
+
+    return (
+        json.dumps({"fallback exception": str(e)}, ensure_ascii=False),
+        500,
+        {"Content-Type": "application/json; charset=utf-8"},
+    )

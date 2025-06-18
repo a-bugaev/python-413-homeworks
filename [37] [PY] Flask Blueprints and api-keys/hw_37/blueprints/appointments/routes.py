@@ -14,10 +14,10 @@ from .pw_actions import (
     delete_appointment,
 )
 
-_appointments_bp = Blueprint("appointments", __name__, url_prefix="/appointments")
+appointments_bp = Blueprint("appointments", __name__, url_prefix="/appointments")
 
 
-@_appointments_bp.route("/appointments", methods=["GET"])
+@appointments_bp.route("/appointments", methods=["GET"])
 def ep_get_appointments() -> tuple[str, int, dict]:
     """
     Получить все записи на услуги с опциональной сортировкой
@@ -47,7 +47,7 @@ def ep_get_appointments() -> tuple[str, int, dict]:
     )
 
 
-@_appointments_bp.route("/appointments/<int:appointment_id>", methods=["GET"])
+@appointments_bp.route("/appointments/<int:appointment_id>", methods=["GET"])
 def ep_get_appointment_by_id(appointment_id: int) -> tuple[str, int, dict]:
     """
     Получить информацию о записи по ID
@@ -71,7 +71,7 @@ def ep_get_appointment_by_id(appointment_id: int) -> tuple[str, int, dict]:
     )
 
 
-@_appointments_bp.route("/appointments/master/<int:master_id>", methods=["GET"])
+@appointments_bp.route("/appointments/master/<int:master_id>", methods=["GET"])
 def ep_get_appointments_by_master(master_id: int) -> tuple[str, int, dict]:
     """
     Получить все записи для заданного мастера
@@ -95,7 +95,7 @@ def ep_get_appointments_by_master(master_id: int) -> tuple[str, int, dict]:
     )
 
 
-@_appointments_bp.route("/appointments", methods=["POST"])
+@appointments_bp.route("/appointments", methods=["POST"])
 def ep_add_appointment() -> tuple[str, int, dict]:
     """
     Создать новую запись
@@ -127,7 +127,7 @@ def ep_add_appointment() -> tuple[str, int, dict]:
     )
 
 
-@_appointments_bp.route("/appointments/<int:appointment_id>", methods=["PUT"])
+@appointments_bp.route("/appointments/<int:appointment_id>", methods=["PUT"])
 def ep_update_appointment(appointment_id: int) -> tuple[str, int, dict]:
     """
     Обновить запись
@@ -169,7 +169,7 @@ def ep_update_appointment(appointment_id: int) -> tuple[str, int, dict]:
     )
 
 
-@_appointments_bp.route("/appointments/<int:appointment_id>", methods=["DELETE"])
+@appointments_bp.route("/appointments/<int:appointment_id>", methods=["DELETE"])
 def ep_delete_appointment(appointment_id: int) -> tuple[str, int, dict] | tuple[str, int]:
     """
     Удалить запись
@@ -188,4 +188,28 @@ def ep_delete_appointment(appointment_id: int) -> tuple[str, int, dict] | tuple[
 
     return "", 204
 
-appointments_bp = _appointments_bp
+@appointments_bp.errorhandler(404)
+def not_found_handler(e) -> tuple[str, int, dict]:
+    """
+    универсальный хендлер для несуществующих адресов
+    """
+
+    return (
+        json.dumps({"'not found' fallback exception": str(e)}, ensure_ascii=False),
+        404,
+        {"Content-Type": "application/json; charset=utf-8"},
+    )
+
+
+@appointments_bp.errorhandler(Exception)
+def fallback_handler(e) -> tuple[str, int, dict]:
+    """
+    вернёт краткие данные в json формате о необработанных исключениях
+    """
+
+    return (
+        json.dumps({"fallback exception": str(e)}, ensure_ascii=False),
+        500,
+        {"Content-Type": "application/json; charset=utf-8"},
+    )
+
