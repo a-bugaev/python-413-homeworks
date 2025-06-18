@@ -188,6 +188,7 @@ def ep_delete_appointment(appointment_id: int) -> tuple[str, int, dict] | tuple[
 
     return "", 204
 
+
 @appointments_bp.errorhandler(404)
 def not_found_handler(e) -> tuple[str, int, dict]:
     """
@@ -212,4 +213,3 @@ def fallback_handler(e) -> tuple[str, int, dict]:
         500,
         {"Content-Type": "application/json; charset=utf-8"},
     )
-
