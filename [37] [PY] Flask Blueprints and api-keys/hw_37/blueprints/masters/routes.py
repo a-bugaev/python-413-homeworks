@@ -16,7 +16,7 @@ from .pw_actions import (
 masters_bp = Blueprint("masters", __name__, url_prefix="/masters")
 
 
-@masters_bp.route("/masters", methods=["GET"])
+@masters_bp.route("/", methods=["GET"])
 def ep_get_masters() -> tuple[str, int, dict]:
     """
     Получить список всех мастеров
@@ -38,7 +38,7 @@ def ep_get_masters() -> tuple[str, int, dict]:
     )
 
 
-@masters_bp.route("/masters/<int:master_id>", methods=["GET"])
+@masters_bp.route("/<int:master_id>", methods=["GET"])
 def ep_get_master_by_id(master_id: int) -> tuple[str, int, dict]:
     """
     Получить информацию о мастере по ID
@@ -62,7 +62,7 @@ def ep_get_master_by_id(master_id: int) -> tuple[str, int, dict]:
     )
 
 
-@masters_bp.route("/masters", methods=["POST"])
+@masters_bp.route("/", methods=["POST"])
 def ep_add_master() -> tuple[str, int, dict]:
     """
     Добавить нового мастера
@@ -88,7 +88,7 @@ def ep_add_master() -> tuple[str, int, dict]:
     )
 
 
-@masters_bp.route("/masters/<int:master_id>", methods=["PUT"])
+@masters_bp.route("/<int:master_id>", methods=["PUT"])
 def ep_update_master(master_id: int) -> tuple[str, int, dict]:
     """
     Обновить информацию о мастере
@@ -124,7 +124,7 @@ def ep_update_master(master_id: int) -> tuple[str, int, dict]:
     )
 
 
-@masters_bp.route("/masters/<int:master_id>", methods=["DELETE"])
+@masters_bp.route("/<int:master_id>", methods=["DELETE"])
 def ep_delete_master(master_id: int) -> tuple[str, int, dict] | tuple[str, int]:
     """
     Удалить мастера

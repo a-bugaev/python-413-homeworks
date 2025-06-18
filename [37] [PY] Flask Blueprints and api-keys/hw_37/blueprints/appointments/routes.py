@@ -17,7 +17,7 @@ from .pw_actions import (
 appointments_bp = Blueprint("appointments", __name__, url_prefix="/appointments")
 
 
-@appointments_bp.route("/appointments", methods=["GET"])
+@appointments_bp.route("/", methods=["GET"])
 def ep_get_appointments() -> tuple[str, int, dict]:
     """
     Получить все записи на услуги с опциональной сортировкой
@@ -47,7 +47,7 @@ def ep_get_appointments() -> tuple[str, int, dict]:
     )
 
 
-@appointments_bp.route("/appointments/<int:appointment_id>", methods=["GET"])
+@appointments_bp.route("/<int:appointment_id>", methods=["GET"])
 def ep_get_appointment_by_id(appointment_id: int) -> tuple[str, int, dict]:
     """
     Получить информацию о записи по ID
@@ -71,7 +71,7 @@ def ep_get_appointment_by_id(appointment_id: int) -> tuple[str, int, dict]:
     )
 
 
-@appointments_bp.route("/appointments/master/<int:master_id>", methods=["GET"])
+@appointments_bp.route("/master/<int:master_id>", methods=["GET"])
 def ep_get_appointments_by_master(master_id: int) -> tuple[str, int, dict]:
     """
     Получить все записи для заданного мастера
@@ -95,7 +95,7 @@ def ep_get_appointments_by_master(master_id: int) -> tuple[str, int, dict]:
     )
 
 
-@appointments_bp.route("/appointments", methods=["POST"])
+@appointments_bp.route("/", methods=["POST"])
 def ep_add_appointment() -> tuple[str, int, dict]:
     """
     Создать новую запись
@@ -127,7 +127,7 @@ def ep_add_appointment() -> tuple[str, int, dict]:
     )
 
 
-@appointments_bp.route("/appointments/<int:appointment_id>", methods=["PUT"])
+@appointments_bp.route("/<int:appointment_id>", methods=["PUT"])
 def ep_update_appointment(appointment_id: int) -> tuple[str, int, dict]:
     """
     Обновить запись
@@ -169,7 +169,7 @@ def ep_update_appointment(appointment_id: int) -> tuple[str, int, dict]:
     )
 
 
-@appointments_bp.route("/appointments/<int:appointment_id>", methods=["DELETE"])
+@appointments_bp.route("/<int:appointment_id>", methods=["DELETE"])
 def ep_delete_appointment(appointment_id: int) -> tuple[str, int, dict] | tuple[str, int]:
     """
     Удалить запись
