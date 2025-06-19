@@ -5,6 +5,7 @@ hw_37/blueprints/appointments/routes.py
 import json
 from flask import Blueprint, request
 from peewee import DoesNotExist
+from hw_37.auth import auth_check
 from .pw_actions import (
     get_all_appointments,
     get_appointment_by_id,
@@ -23,6 +24,12 @@ def ep_get_appointments() -> tuple[str, int, dict]:
     Получить все записи на услуги с опциональной сортировкой
     :return: json string: str, status code: int, headers: dict
     """
+
+    print(request.headers)
+
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
 
     sort_by = request.args.get("sort_by")
     if not sort_by:
@@ -55,6 +62,10 @@ def ep_get_appointment_by_id(appointment_id: int) -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict | error text: str, status code: int
     """
 
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
+
     try:
         appointment = get_appointment_by_id(appointment_id)
     except DoesNotExist as e:
@@ -79,6 +90,10 @@ def ep_get_appointments_by_master(master_id: int) -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict
     """
 
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
+
     try:
         appointments = get_all_appointments_by_master(master_id)
     except DoesNotExist as e:
@@ -101,6 +116,10 @@ def ep_add_appointment() -> tuple[str, int, dict]:
     Создать новую запись
     :return: json string: str, status code: int, headers: dict
     """
+
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
 
     try:
         data = json.loads(str(request.json))
@@ -134,6 +153,10 @@ def ep_update_appointment(appointment_id: int) -> tuple[str, int, dict]:
     :param appointment_id: int
     :return: json string: str, status code: int, headers: dict | error text: str, status code: int
     """
+
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
 
     try:
         data = json.loads(str(request.json))
@@ -176,6 +199,10 @@ def ep_delete_appointment(appointment_id: int) -> tuple[str, int, dict] | tuple[
     :param appointment_id: int
     :return: status/error string: str, status code: int
     """
+
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
 
     try:
         delete_appointment(appointment_id)

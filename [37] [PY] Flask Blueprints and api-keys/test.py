@@ -1,6 +1,13 @@
 """
 HW 36. Flask API
 test.py: запросы к каждому эндпоинту
+
+######
+
+hw 37: каждый запрос теперь делается с админским,
+пользовательским и неправильным ключами
++ запрос как раньше без ключа
+
 """
 
 import os
@@ -8,14 +15,16 @@ from time import sleep
 import re
 from re import Match
 from json import JSONDecodeError, dumps
+from copy import deepcopy
 import requests
 from requests.models import Response
 
+REQ_TIMEOUT = 1
 
-TIMEOUT = 1
+SLEEP_S = 0.1
 
-responses: list[Response] = []
-requests_data: list[dict] = [
+RESPONSES: list[Response] = []
+REQUESTS_DATA: list[dict] = [
     # @app.route("/masters")
     # ep_get_masters
     {"method": "get", "url": "http://127.0.0.1:5000/masters", "json": ""},
@@ -122,24 +131,53 @@ requests_data: list[dict] = [
     {"method": "delete", "url": "http://127.0.0.1:5000/appointments/5", "json": ""},
 ]
 
-for request_dict in requests_data:
+ADMIN_API_KEY = "uUXf(pvDD)*Qkj(Js@puV9vVAHwst9Ry"
+USER_API_KEY = "x4Y_%$b7z(Mvec_anrK82^vyTy^)8TvS"
+DUMMY_API_KEY = "letmein"
+
+# модификация списка запросов
+
+REQUESTS_AS_ADMIN = deepcopy(REQUESTS_DATA)
+for request_dict in REQUESTS_AS_ADMIN:
+    request_dict["headers"] = {"API_KEY": ADMIN_API_KEY}
+
+REQUESTS_AS_USER = deepcopy(REQUESTS_DATA)
+for request_dict in REQUESTS_AS_USER:
+    request_dict["headers"] = {"API_KEY": USER_API_KEY}
+
+REQUESTS_AS_DUMMY = deepcopy(REQUESTS_DATA)
+for request_dict in REQUESTS_AS_DUMMY:
+    request_dict["headers"] = {"API_KEY": DUMMY_API_KEY}
+
+REQUESTS_DATA_API = [*REQUESTS_DATA, *REQUESTS_AS_ADMIN, *REQUESTS_AS_USER, *REQUESTS_AS_DUMMY]
+
+for request_dict in REQUESTS_DATA_API:
 
     # с временным промежутком выполнить верные
     # и неверные запросы к каждому эндпоинту, Response объекты собрать в список
 
+    if "headers" in request_dict:
+        R_HEADERS = request_dict["headers"]
+    else:
+        R_HEADERS = None
+
     response = requests.request(
-        request_dict["method"], request_dict["url"], json=request_dict["json"], timeout=TIMEOUT
+        request_dict["method"],
+        request_dict["url"],
+        headers=R_HEADERS,
+        json=request_dict["json"],
+        timeout=REQ_TIMEOUT,
     )
-    responses.append(response)
-    sleep(0.25)
+    RESPONSES.append(response)
+    sleep(SLEEP_S)
     print(".", end=" ", flush=True)
 
 OUT_TEXT = "\n"
 
-if not os.path.isdir('./test_htmls'):
-    os.mkdir('./test_htmls')
+if not os.path.isdir("./test_htmls"):
+    os.mkdir("./test_htmls")
 
-for idx, response in enumerate(responses):
+for idx, response in enumerate(RESPONSES):
 
     # создать html файл если текст доступен
     if response.text:

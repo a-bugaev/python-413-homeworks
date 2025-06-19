@@ -5,6 +5,7 @@ hw_37/blueprints/masters/routes.py
 import json
 from flask import Blueprint, request
 from peewee import DoesNotExist
+from hw_37.auth import auth_check
 from .pw_actions import (
     get_all_masters,
     get_master_by_id,
@@ -22,6 +23,11 @@ def ep_get_masters() -> tuple[str, int, dict]:
     Получить список всех мастеров
     :return: json string: str, status code: int, headers: dict
     """
+
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
+
     try:
         masters = get_all_masters()
     except DoesNotExist as e:
@@ -46,6 +52,10 @@ def ep_get_master_by_id(master_id: int) -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict | error text: str, status code: int
     """
 
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
+
     try:
         master = get_master_by_id(master_id)
     except DoesNotExist as e:
@@ -68,6 +78,10 @@ def ep_add_master() -> tuple[str, int, dict]:
     Добавить нового мастера
     :return: json string: str, status code: int, headers: dict
     """
+
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
 
     try:
         data = json.loads(str(request.json))
@@ -95,6 +109,10 @@ def ep_update_master(master_id: int) -> tuple[str, int, dict]:
     :param master_id: int
     :return: json string: str, status code: int, headers: dict | error text: str, status code: int
     """
+
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
 
     try:
         data = json.loads(str(request.json))
@@ -132,6 +150,10 @@ def ep_delete_master(master_id: int) -> tuple[str, int, dict] | tuple[str, int]:
     :return: status/error string: str, status code: int
     """
 
+    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    if auth_result is not True:
+        return auth_result
+
     try:
         delete_master(master_id)
     except DoesNotExist as e:
@@ -142,6 +164,7 @@ def ep_delete_master(master_id: int) -> tuple[str, int, dict] | tuple[str, int]:
         )
 
     return "", 204
+
 
 @masters_bp.errorhandler(404)
 def not_found_handler(e) -> tuple[str, int, dict]:
