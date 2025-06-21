@@ -1,8 +1,6 @@
 annotated-types
 Flask
-mysql-connector-python
 peewee
-pysqlite3
 requests
 types-peewee
 types-requests
