@@ -24,7 +24,7 @@ def ep_get_masters() -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict
     """
 
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 
@@ -52,7 +52,7 @@ def ep_get_master_by_id(master_id: int) -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict | error text: str, status code: int
     """
 
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 
@@ -79,7 +79,7 @@ def ep_add_master() -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict
     """
 
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 
@@ -110,7 +110,7 @@ def ep_update_master(master_id: int) -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict | error text: str, status code: int
     """
 
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 
@@ -150,7 +150,7 @@ def ep_delete_master(master_id: int) -> tuple[str, int, dict] | tuple[str, int]:
     :return: status/error string: str, status code: int
     """
 
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 

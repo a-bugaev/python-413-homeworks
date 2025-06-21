@@ -42,32 +42,32 @@ ACCESS_TABLE = [
         "user": False,
     },
     {
-        "endpoint": "appointment.ep_get_appointments",
+        "endpoint": "appointments.ep_get_appointments",
         "admin": True,
         "user": True,
     },
     {
-        "endpoint": "appointment.ep_get_appointment_by_id",
+        "endpoint": "appointments.ep_get_appointment_by_id",
         "admin": True,
         "user": True,
     },
     {
-        "endpoint": "appointment.ep_get_appointments_by_master",
+        "endpoint": "appointments.ep_get_appointments_by_master",
         "admin": True,
         "user": True,
     },
     {
-        "endpoint": "appointment.ep_add_appointment",
+        "endpoint": "appointments.ep_add_appointment",
         "admin": True,
         "user": False,
     },
     {
-        "endpoint": "appointment.ep_update_appointment",
+        "endpoint": "appointments.ep_update_appointment",
         "admin": True,
         "user": False,
     },
     {
-        "endpoint": "appointment.ep_delete_appointment",
+        "endpoint": "appointments.ep_delete_appointment",
         "admin": True,
         "user": False,
     },
@@ -106,6 +106,8 @@ def auth_check(api_key: str | None, endpoint: str | None) -> Literal[True] | tup
     Проверяет, имеет ли пользователь с данным ключом API права на выполнение запроса
     """
 
+    print(endpoint)
+
     if api_key is None:
         return (
             json.dumps({"Unauthorized": "API key is required"}, ensure_ascii=False),
@@ -140,7 +142,7 @@ def auth_check(api_key: str | None, endpoint: str | None) -> Literal[True] | tup
             {"Content-Type": "application/json; charset=utf-8"},
         )
 
-    if not api_key_belongs_to_admin == access_rules["admin"]:
+    if not api_key_belongs_to_admin and not access_rules["user"]:
         return (
             json.dumps({"Forbidden": "only admin access is allowed"}, ensure_ascii=False),
             403,

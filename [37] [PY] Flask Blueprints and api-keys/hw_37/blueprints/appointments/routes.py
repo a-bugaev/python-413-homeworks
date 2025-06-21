@@ -25,9 +25,7 @@ def ep_get_appointments() -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict
     """
 
-    print(request.headers)
-
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 
@@ -62,7 +60,7 @@ def ep_get_appointment_by_id(appointment_id: int) -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict | error text: str, status code: int
     """
 
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 
@@ -90,7 +88,7 @@ def ep_get_appointments_by_master(master_id: int) -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict
     """
 
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 
@@ -117,7 +115,7 @@ def ep_add_appointment() -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict
     """
 
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 
@@ -154,7 +152,7 @@ def ep_update_appointment(appointment_id: int) -> tuple[str, int, dict]:
     :return: json string: str, status code: int, headers: dict | error text: str, status code: int
     """
 
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 
@@ -200,7 +198,7 @@ def ep_delete_appointment(appointment_id: int) -> tuple[str, int, dict] | tuple[
     :return: status/error string: str, status code: int
     """
 
-    auth_result = auth_check(request.headers.get("API_KEY"), request.endpoint)
+    auth_result = auth_check(request.headers.get("API-KEY"), request.endpoint)
     if auth_result is not True:
         return auth_result
 

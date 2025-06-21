@@ -10,20 +10,15 @@ hw 37: каждый запрос теперь делается с админск
 
 """
 
-import os
 from time import sleep
-import re
-from re import Match
 from json import JSONDecodeError, dumps
 from copy import deepcopy
 import requests
-from requests.models import Response
 
 REQ_TIMEOUT = 1
 
 SLEEP_S = 0.1
 
-RESPONSES: list[Response] = []
 REQUESTS_DATA: list[dict] = [
     # @app.route("/masters")
     # ep_get_masters
@@ -139,74 +134,87 @@ DUMMY_API_KEY = "letmein"
 
 REQUESTS_AS_ADMIN = deepcopy(REQUESTS_DATA)
 for request_dict in REQUESTS_AS_ADMIN:
-    request_dict["headers"] = {"API_KEY": ADMIN_API_KEY}
+    request_dict["headers"] = {"API-KEY": ADMIN_API_KEY}
 
 REQUESTS_AS_USER = deepcopy(REQUESTS_DATA)
 for request_dict in REQUESTS_AS_USER:
-    request_dict["headers"] = {"API_KEY": USER_API_KEY}
+    request_dict["headers"] = {"API-KEY": USER_API_KEY}
 
 REQUESTS_AS_DUMMY = deepcopy(REQUESTS_DATA)
 for request_dict in REQUESTS_AS_DUMMY:
-    request_dict["headers"] = {"API_KEY": DUMMY_API_KEY}
+    request_dict["headers"] = {"API-KEY": DUMMY_API_KEY}
 
-REQUESTS_DATA_API = [*REQUESTS_DATA, *REQUESTS_AS_ADMIN, *REQUESTS_AS_USER, *REQUESTS_AS_DUMMY]
 
-for request_dict in REQUESTS_DATA_API:
+def make_reqs(reqs_data):
+    """
+    сделать запросы и вывести результат в консоль
+    """
 
-    # с временным промежутком выполнить верные
-    # и неверные запросы к каждому эндпоинту, Response объекты собрать в список
+    responses = []
 
-    if "headers" in request_dict:
-        R_HEADERS = request_dict["headers"]
-    else:
-        R_HEADERS = None
+    for request_dict in reqs_data:
 
-    response = requests.request(
-        request_dict["method"],
-        request_dict["url"],
-        headers=R_HEADERS,
-        json=request_dict["json"],
-        timeout=REQ_TIMEOUT,
-    )
-    RESPONSES.append(response)
-    sleep(SLEEP_S)
-    print(".", end=" ", flush=True)
+        # с временным промежутком выполнить верные
+        # и неверные запросы к каждому эндпоинту, Response объекты собрать в список
 
-OUT_TEXT = "\n"
+        if "headers" in request_dict:
+            r_headers = request_dict["headers"]
+        else:
+            r_headers = None
 
-if not os.path.isdir("./test_htmls"):
-    os.mkdir("./test_htmls")
+        response = requests.request(
+            request_dict["method"],
+            request_dict["url"],
+            headers=r_headers,
+            json=request_dict["json"],
+            timeout=REQ_TIMEOUT,
+        )
+        responses.append(response)
+        sleep(SLEEP_S)
+        print(".", end=" ", flush=True)
 
-for idx, response in enumerate(RESPONSES):
+    out_text = ''
 
-    # создать html файл если текст доступен
-    if response.text:
-        pattern = re.compile(r"http://[^\/]+/(.+)")
-        url_path = re.match(pattern, response.url)
-        if isinstance(url_path, Match):
-            url_path_clean = url_path.group(1).replace("/", "_")
-            with open(
-                f"./test_htmls/[{idx}][{response.request.method}]_{url_path_clean}.html",
-                "w",
-                encoding="utf-8",
-            ) as f:
-                f.write(response.text)
+    for idx, response in enumerate(responses):
+        # вывести в консоль данные ответа и json при наличии
+        try:
+            r_json = response.json()
+        except JSONDecodeError:
+            r_json = ""
+        out_text += f"""
+            idx: {idx}
+            method: {response.request.method}
+            url: {response.url}
+            status_code: {response.status_code}
+            json:
+            {str(r_json) if str(r_json) else '<not available>'}
+        """.replace(
+            "    ", ""
+        )
 
-    # вывести в консоль данные ответа и json при наличии
-    try:
-        JSON = response.json()
-    except JSONDecodeError:
-        JSON = ""
-    OUT_TEXT += f"""
-        idx: {idx}
-        method: {response.request.method}
-        url: {response.url}
-        status_code: {response.status_code}
-        text: {'<file saved to tests_html>' if response.text else '<not available>'}
-        json:
-        {str(JSON) if str(JSON) else '<not available>'}
-    """.replace(
-        "    ", ""
-    )
+    return out_text
 
-print(OUT_TEXT)
+
+print_str = f"""
+
+БЕЗ КЛЮЧА       ###############################################################
+
+{make_reqs(REQUESTS_DATA)}
+
+КЛЮЧ АДМИНА     ###############################################################
+
+{make_reqs(REQUESTS_AS_ADMIN)}
+
+КЛЮЧ ЮЗЕРА      ###############################################################
+
+{make_reqs(REQUESTS_AS_USER)}
+
+НЕВЕРНЫЙ КЛЮЧ   ###############################################################
+
+{make_reqs(REQUESTS_AS_DUMMY)}
+"""
+
+with open("./test.txt", "w", encoding="utf-8") as f:
+    f.write(print_str)
+
+print(print_str)
