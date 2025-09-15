@@ -1,9 +1,0 @@
-annotated-types
-Flask
-peewee
-requests
-types-peewee
-types-requests
-typing-inspection
-typing_extensions
-dotenv
