@@ -1,0 +1,44 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/header.css' %}">
+
+<nav class="navbar navbar-expand-lg navbar-light sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'landing' %}">
+      <i class="bi bi-shop-window me-2"></i>BARBER'S HUB
+    </a>
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><script src={% static 'js/header.js' %} ></script>
+          <a class="nav-link active" href="{% url "landing" %}#hero">Главная</a>
+        </li>
+        {% if request.user.is_staff %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "orders_list" %}">Заявки</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "landing" %}#services">Услуги</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "landing" %}#masters">Мастера</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "landing" %}#about">О нас</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "landing" %}#contact">Запись</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

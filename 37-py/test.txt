@@ -1,0 +1,637 @@
+
+
+БЕЗ КЛЮЧА       ###############################################################
+
+
+
+idx: 0
+method: GET
+url: http://127.0.0.1:5000/masters/
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 1
+method: GET
+url: http://127.0.0.1:5000/mastes
+status_code: 404
+json:
+<not available>
+
+idx: 2
+method: GET
+url: http://127.0.0.1:5000/masters/1
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 3
+method: GET
+url: http://127.0.0.1:5000/masters/5
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 4
+method: POST
+url: http://127.0.0.1:5000/masters/
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 5
+method: POST
+url: http://127.0.0.1:5000/masters/
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 6
+method: PUT
+url: http://127.0.0.1:5000/masters/3
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 7
+method: PUT
+url: http://127.0.0.1:5000/masters/3
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 8
+method: DELETE
+url: http://127.0.0.1:5000/masters/3
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 9
+method: DELETE
+url: http://127.0.0.1:5000/masters/5
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 10
+method: GET
+url: http://127.0.0.1:5000/appointments/
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 11
+method: GET
+url: http://127.0.0.1:5000/appointments/?sort_by=master&direction=desc
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 12
+method: GET
+url: http://127.0.0.1:5000/appointments/1
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 13
+method: GET
+url: http://127.0.0.1:5000/appointments/three
+status_code: 404
+json:
+<not available>
+
+idx: 14
+method: GET
+url: http://127.0.0.1:5000/appointments/master/1
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 15
+method: GET
+url: http://127.0.0.1:5000/appointments/master/5
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 16
+method: POST
+url: http://127.0.0.1:5000/appointments/
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 17
+method: POST
+url: http://127.0.0.1:5000/appointments/
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 18
+method: PUT
+url: http://127.0.0.1:5000/appointments/5
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 19
+method: PUT
+url: http://127.0.0.1:5000/appointments/5
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 20
+method: DELETE
+url: http://127.0.0.1:5000/appointments/5
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+idx: 21
+method: DELETE
+url: http://127.0.0.1:5000/appointments/5
+status_code: 401
+json:
+{'Unauthorized': 'API key is required'}
+
+
+КЛЮЧ АДМИНА     ###############################################################
+
+
+
+idx: 0
+method: GET
+url: http://127.0.0.1:5000/masters/
+status_code: 200
+json:
+[{'first_name': 'Татьяна', 'last_name': 'Иванова', 'middle_name': 'Михайловна', 'phone': '+53778541390'}, {'first_name': 'Василий', 'last_name': 'Сидоров', 'middle_name': 'Петрович', 'phone': '+06997643570'}]
+
+idx: 1
+method: GET
+url: http://127.0.0.1:5000/mastes
+status_code: 404
+json:
+<not available>
+
+idx: 2
+method: GET
+url: http://127.0.0.1:5000/masters/1
+status_code: 200
+json:
+{'first_name': 'Татьяна', 'last_name': 'Иванова', 'middle_name': 'Михайловна', 'phone': '+53778541390'}
+
+idx: 3
+method: GET
+url: http://127.0.0.1:5000/masters/5
+status_code: 404
+json:
+{'error': 'Нет мастера под ID 5'}
+
+idx: 4
+method: POST
+url: http://127.0.0.1:5000/masters/
+status_code: 201
+json:
+{'success_msg': 'Мастер добавлен под ID: 3'}
+
+idx: 5
+method: POST
+url: http://127.0.0.1:5000/masters/
+status_code: 400
+json:
+{'error': 'Пропущено обязательное поле: Фамилия'}
+
+idx: 6
+method: PUT
+url: http://127.0.0.1:5000/masters/3
+status_code: 200
+json:
+{'success_msg': 'Данные мастера под ID 3 обновлены'}
+
+idx: 7
+method: PUT
+url: http://127.0.0.1:5000/masters/3
+status_code: 400
+json:
+{'error': 'Некорректные данные JSON'}
+
+idx: 8
+method: DELETE
+url: http://127.0.0.1:5000/masters/3
+status_code: 204
+json:
+<not available>
+
+idx: 9
+method: DELETE
+url: http://127.0.0.1:5000/masters/5
+status_code: 404
+json:
+{'error': 'Нет мастера под ID 5'}
+
+idx: 10
+method: GET
+url: http://127.0.0.1:5000/appointments/
+status_code: 200
+json:
+[{'client_name': 'Клиент Первый', 'client_phone': '+70527416207', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Первого', 'master': '1', 'status': 'Подана заявка'}, {'client_name': 'Клиентка Вторая', 'client_phone': '+72655470674', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Второй', 'master': '2', 'status': 'Запись подтверждена'}, {'client_name': 'Клиент Третий', 'client_phone': '+39699848096', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Третьего', 'master': '1', 'status': 'Услуга оплачена'}, {'client_name': 'Клиентка Четвертая', 'client_phone': '+75926060365', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Четвёртой', 'master': '2', 'status': 'Услуга оказана'}]
+
+idx: 11
+method: GET
+url: http://127.0.0.1:5000/appointments/?sort_by=master&direction=desc
+status_code: 200
+json:
+[{'client_name': 'Клиентка Четвертая', 'client_phone': '+75926060365', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Четвёртой', 'master': '2', 'status': 'Услуга оказана'}, {'client_name': 'Клиентка Вторая', 'client_phone': '+72655470674', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Второй', 'master': '2', 'status': 'Запись подтверждена'}, {'client_name': 'Клиент Третий', 'client_phone': '+39699848096', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Третьего', 'master': '1', 'status': 'Услуга оплачена'}, {'client_name': 'Клиент Первый', 'client_phone': '+70527416207', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Первого', 'master': '1', 'status': 'Подана заявка'}]
+
+idx: 12
+method: GET
+url: http://127.0.0.1:5000/appointments/1
+status_code: 200
+json:
+{'client_name': 'Клиент Первый', 'client_phone': '+70527416207', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Первого', 'master': '1', 'status': 'Подана заявка'}
+
+idx: 13
+method: GET
+url: http://127.0.0.1:5000/appointments/three
+status_code: 404
+json:
+<not available>
+
+idx: 14
+method: GET
+url: http://127.0.0.1:5000/appointments/master/1
+status_code: 200
+json:
+[{'client_name': 'Клиент Первый', 'client_phone': '+70527416207', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Первого', 'master': '1', 'status': 'Подана заявка'}, {'client_name': 'Клиент Третий', 'client_phone': '+39699848096', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Третьего', 'master': '1', 'status': 'Услуга оплачена'}]
+
+idx: 15
+method: GET
+url: http://127.0.0.1:5000/appointments/master/5
+status_code: 200
+json:
+[]
+
+idx: 16
+method: POST
+url: http://127.0.0.1:5000/appointments/
+status_code: 201
+json:
+{'success_msg': 'Запись добавлена под ID: 5'}
+
+idx: 17
+method: POST
+url: http://127.0.0.1:5000/appointments/
+status_code: 400
+json:
+{'error': 'Некорректное значение статуса'}
+
+idx: 18
+method: PUT
+url: http://127.0.0.1:5000/appointments/5
+status_code: 200
+json:
+{'success_msg': 'Данные записи под ID 5 обновлены'}
+
+idx: 19
+method: PUT
+url: http://127.0.0.1:5000/appointments/5
+status_code: 400
+json:
+{'error': 'Ключ не распознан'}
+
+idx: 20
+method: DELETE
+url: http://127.0.0.1:5000/appointments/5
+status_code: 204
+json:
+<not available>
+
+idx: 21
+method: DELETE
+url: http://127.0.0.1:5000/appointments/5
+status_code: 404
+json:
+{'error': 'Нет записи под ID 5'}
+
+
+КЛЮЧ ЮЗЕРА      ###############################################################
+
+
+
+idx: 0
+method: GET
+url: http://127.0.0.1:5000/masters/
+status_code: 200
+json:
+[{'first_name': 'Татьяна', 'last_name': 'Иванова', 'middle_name': 'Михайловна', 'phone': '+53778541390'}, {'first_name': 'Василий', 'last_name': 'Сидоров', 'middle_name': 'Петрович', 'phone': '+06997643570'}]
+
+idx: 1
+method: GET
+url: http://127.0.0.1:5000/mastes
+status_code: 404
+json:
+<not available>
+
+idx: 2
+method: GET
+url: http://127.0.0.1:5000/masters/1
+status_code: 200
+json:
+{'first_name': 'Татьяна', 'last_name': 'Иванова', 'middle_name': 'Михайловна', 'phone': '+53778541390'}
+
+idx: 3
+method: GET
+url: http://127.0.0.1:5000/masters/5
+status_code: 404
+json:
+{'error': 'Нет мастера под ID 5'}
+
+idx: 4
+method: POST
+url: http://127.0.0.1:5000/masters/
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 5
+method: POST
+url: http://127.0.0.1:5000/masters/
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 6
+method: PUT
+url: http://127.0.0.1:5000/masters/3
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 7
+method: PUT
+url: http://127.0.0.1:5000/masters/3
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 8
+method: DELETE
+url: http://127.0.0.1:5000/masters/3
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 9
+method: DELETE
+url: http://127.0.0.1:5000/masters/5
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 10
+method: GET
+url: http://127.0.0.1:5000/appointments/
+status_code: 200
+json:
+[{'client_name': 'Клиент Первый', 'client_phone': '+70527416207', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Первого', 'master': '1', 'status': 'Подана заявка'}, {'client_name': 'Клиентка Вторая', 'client_phone': '+72655470674', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Второй', 'master': '2', 'status': 'Запись подтверждена'}, {'client_name': 'Клиент Третий', 'client_phone': '+39699848096', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Третьего', 'master': '1', 'status': 'Услуга оплачена'}, {'client_name': 'Клиентка Четвертая', 'client_phone': '+75926060365', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Четвёртой', 'master': '2', 'status': 'Услуга оказана'}]
+
+idx: 11
+method: GET
+url: http://127.0.0.1:5000/appointments/?sort_by=master&direction=desc
+status_code: 200
+json:
+[{'client_name': 'Клиентка Четвертая', 'client_phone': '+75926060365', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Четвёртой', 'master': '2', 'status': 'Услуга оказана'}, {'client_name': 'Клиентка Вторая', 'client_phone': '+72655470674', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Второй', 'master': '2', 'status': 'Запись подтверждена'}, {'client_name': 'Клиент Третий', 'client_phone': '+39699848096', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Третьего', 'master': '1', 'status': 'Услуга оплачена'}, {'client_name': 'Клиент Первый', 'client_phone': '+70527416207', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Первого', 'master': '1', 'status': 'Подана заявка'}]
+
+idx: 12
+method: GET
+url: http://127.0.0.1:5000/appointments/1
+status_code: 200
+json:
+{'client_name': 'Клиент Первый', 'client_phone': '+70527416207', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Первого', 'master': '1', 'status': 'Подана заявка'}
+
+idx: 13
+method: GET
+url: http://127.0.0.1:5000/appointments/three
+status_code: 404
+json:
+<not available>
+
+idx: 14
+method: GET
+url: http://127.0.0.1:5000/appointments/master/1
+status_code: 200
+json:
+[{'client_name': 'Клиент Первый', 'client_phone': '+70527416207', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Первого', 'master': '1', 'status': 'Подана заявка'}, {'client_name': 'Клиент Третий', 'client_phone': '+39699848096', 'timestamp': '2025-06-20 15:23:32', 'comment': 'текст комментария для Третьего', 'master': '1', 'status': 'Услуга оплачена'}]
+
+idx: 15
+method: GET
+url: http://127.0.0.1:5000/appointments/master/5
+status_code: 200
+json:
+[]
+
+idx: 16
+method: POST
+url: http://127.0.0.1:5000/appointments/
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 17
+method: POST
+url: http://127.0.0.1:5000/appointments/
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 18
+method: PUT
+url: http://127.0.0.1:5000/appointments/5
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 19
+method: PUT
+url: http://127.0.0.1:5000/appointments/5
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 20
+method: DELETE
+url: http://127.0.0.1:5000/appointments/5
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+idx: 21
+method: DELETE
+url: http://127.0.0.1:5000/appointments/5
+status_code: 403
+json:
+{'Forbidden': 'only admin access is allowed'}
+
+
+НЕВЕРНЫЙ КЛЮЧ   ###############################################################
+
+
+
+idx: 0
+method: GET
+url: http://127.0.0.1:5000/masters/
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 1
+method: GET
+url: http://127.0.0.1:5000/mastes
+status_code: 404
+json:
+<not available>
+
+idx: 2
+method: GET
+url: http://127.0.0.1:5000/masters/1
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 3
+method: GET
+url: http://127.0.0.1:5000/masters/5
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 4
+method: POST
+url: http://127.0.0.1:5000/masters/
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 5
+method: POST
+url: http://127.0.0.1:5000/masters/
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 6
+method: PUT
+url: http://127.0.0.1:5000/masters/3
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 7
+method: PUT
+url: http://127.0.0.1:5000/masters/3
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 8
+method: DELETE
+url: http://127.0.0.1:5000/masters/3
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 9
+method: DELETE
+url: http://127.0.0.1:5000/masters/5
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 10
+method: GET
+url: http://127.0.0.1:5000/appointments/
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 11
+method: GET
+url: http://127.0.0.1:5000/appointments/?sort_by=master&direction=desc
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 12
+method: GET
+url: http://127.0.0.1:5000/appointments/1
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 13
+method: GET
+url: http://127.0.0.1:5000/appointments/three
+status_code: 404
+json:
+<not available>
+
+idx: 14
+method: GET
+url: http://127.0.0.1:5000/appointments/master/1
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 15
+method: GET
+url: http://127.0.0.1:5000/appointments/master/5
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 16
+method: POST
+url: http://127.0.0.1:5000/appointments/
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 17
+method: POST
+url: http://127.0.0.1:5000/appointments/
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 18
+method: PUT
+url: http://127.0.0.1:5000/appointments/5
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 19
+method: PUT
+url: http://127.0.0.1:5000/appointments/5
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 20
+method: DELETE
+url: http://127.0.0.1:5000/appointments/5
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+
+idx: 21
+method: DELETE
+url: http://127.0.0.1:5000/appointments/5
+status_code: 401
+json:
+{'Unauthorized': 'invalid api key'}
+

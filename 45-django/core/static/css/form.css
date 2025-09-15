@@ -1,0 +1,80 @@
+.custom-form {
+    transition: backdround-color 0.15;
+}
+
+.custom-form input.form-control::placeholder,
+.custom-form textarea.form-control::placeholder {
+    color: #ACAEAF;
+    background-color: transparent;
+}
+
+.custom-form .phone-input {
+    padding-right: 36px;
+    letter-spacing: 2px;
+}
+
+.custom-form .phone-input::placeholder {
+    text-align: right;
+    letter-spacing: 0;
+}
+
+.custom-form .phone-input-wrapper input {
+    letter-spacing: 2px;
+}
+
+.custom-form .placeholdered-select-wrapper {
+    position: relative;
+}
+
+.custom-form .placeholdered-select-wrapper select {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.custom-form .placeholdered-select-wrapper option {
+    width: 75%;
+    max-width: 75%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.custom-form .placeholdered-select-wrapper span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 40px;
+    pointer-events: none;
+    background-color: transparent;
+}
+
+.custom-form .error-span {
+    color: var(--primary-color)
+}
+
+.custom-form .error-highlight {
+    border-color: var(--primary-color);
+}
+
+.custom-form .input-group:not(.has-validation)> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.rating-input-wrapper {
+    background-color: var(--light-accent);
+}
+
+.rating-input-wrapper i {
+    color: var(--dark-color);
+}
+
+.rating-input-wrapper i:hover {
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.rating-input-wrapper i.light {
+    color: var(--primary-color);
+}

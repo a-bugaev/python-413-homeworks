@@ -1,0 +1,66 @@
+- address:
+    city: Anytown
+    state: CA
+    street: 123 Main St
+    zip: 12345
+  age: 30
+  hobbies:
+  - Reading
+  - Hiking
+  - Swimming
+  name: John Doe
+- address:
+    city: Anytown
+    state: CA
+    street: 456 Elm St
+    zip: 12345
+  age: 25
+  hobbies:
+  - Painting
+  - Yoga
+  - Traveling
+  name: Jane Smith
+- address:
+    city: Anytown
+    state: CA
+    street: 789 Oak St
+    zip: 12345
+  age: 40
+  hobbies:
+  - Cooking
+  - Gardening
+  - Fishing
+  name: Bob Johnson
+- address:
+    city: Anytown
+    state: CA
+    street: 456 Elm St
+    zip: 12345
+  age: 28
+  hobbies:
+  - Painting
+  - Yoga
+  - Traveling
+  name: Alice
+- address:
+    city: Anytown
+    state: CA
+    street: 789 Oak St
+    zip: 12345
+  age: 35
+  hobbies:
+  - Cooking
+  - Gardening
+  - Fishing
+  name: Mike
+- address:
+    city: Anytown
+    state: CA
+    street: 123 Main St
+    zip: 12345
+  age: 45
+  hobbies:
+  - Reading
+  - Hiking
+  - Swimming
+  name: Greg

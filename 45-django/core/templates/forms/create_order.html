@@ -1,0 +1,129 @@
+{% comment %} core/templates/forms/create_order.html {% endcomment %}
+
+{% comment %}
+  fields:
+    client_name
+    phone
+    master
+    services
+    comment
+{% endcomment %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% load related_filter %}
+{% load form_filters %}
+
+<form method="post" class="custom-form order-form">
+  {% csrf_token %}
+  {% comment %} NAME {% endcomment %}
+
+  <div class="input-group mb-3">
+    <input class="form-control {% if form|get_errors_for_field:"client_name"|length > 0 %}error-highlight{% endif %}"
+           name="client_name"
+           maxlength="100"
+           type="text"
+           required=""
+           id="id_client_name"
+           placeholder="{{ form.client_name.label }}"
+           aria-label="{{ form.client_name.label }}">
+    {% if form|get_errors_for_field:"client_name"|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:"client_name" %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+  {% comment %} PHONE {% endcomment %}
+
+  <div class="input-group mb-3 w-100">
+    <span class="input-group-text">🇷🇺</span>
+    <input type="tel"
+           class="form-control phone-input {% if form|get_errors_for_field:"phone"|length > 0 %}error-highlight{% endif %}"
+           value="+7 (___) ___ __ __"
+           name="phone"
+           maxlength="19"
+           required=""
+           aria-invalid="true"
+           placeholder="{{ form.phone.label }}"
+           aria-describedby="id_phone_error"
+           id="id_phone">
+    {% if form|get_errors_for_field:"phone"|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:"phone" %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+  {% comment %} MASTER {% endcomment %}
+
+  <div class="input-group mb-3">
+    <div class="placeholdered-select-wrapper w-100">
+      <span class="placeholder text-muted">{{ form.master.label }}</span>
+      <select name="master"
+              id="id_master"
+              class="form-select {% if form|get_errors_for_field:"master"|length > 0 %}error-highlight{% endif %}">
+        {% for master in form|get_field_queryset:"master" %}
+          <option value="{{ master.id }}">{{ master }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% if form|get_errors_for_field:"master"|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:"master" %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+  {% comment %} SERVICES {% endcomment %}
+
+  <div class="input-group mb-3">
+    <div class="placeholdered-select-wrapper w-100">
+      <span class="placeholder text-muted">{{ form.services.label }}</span>
+      <select name="services"
+              class="form-select w-100 {% if form|get_errors_for_field:"services"|length > 0 %}error-highlight{% endif %}"
+              required=""
+              aria-invalid="true"
+              aria-describedby="id_services_error"
+              id="id_services"
+              multiple="">
+        {% for service in form|get_field_queryset:"services" %}
+          <option value="{{ service.id }}">{{ service }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% if form|get_errors_for_field:"services"|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:"services" %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+  {% comment %} COMMENT {% endcomment %}
+
+  <div class="input-group mb-3">
+    <textarea name="comment"
+              class="form-control {% if form|get_errors_for_field:"comment"|length > 0 %}error-highlight{% endif %}"
+              rows="5"
+              id="id_comment"
+              placeholder="{{ form.comment.label }}"></textarea>
+    {% if form|get_errors_for_field:"comment"|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:"comment" %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+  {% comment %} в модели стоит заглушка на auto_now {% endcomment %}
+
+  {% comment %} <div id="appointment_timestamp_wrapper" class="input-group mb-3 date w-100">
+    <input class="form-control" type="datetime-local" name="appoindment_date" id="id_appoindment_date" required="" value="" min="" max="" step="30" placeholder="{{ form.appointment_date.label }}">
+  </div> {% endcomment %}
+
+  {% if form|get_non_field_errors|length > 0 %}
+    {% for error_msg in form|get_non_field_errors %}
+      <span class="form-text error-span">{{ error_msg }}</span>
+    {% endfor %}
+  {% endif %}
+  <button type="submit" class="btn btn-primary w-100">Отправить</button>
+</form>
+<script defer>
+    window.masters_services_arr = {{ masters_services_json|safe }}
+</script>
+<script defer src="{% static 'js/forms.js' %}"></script>

@@ -1,0 +1,73 @@
+{% comment %} templates/includes/order_card.html {% endcomment %}
+{% load related_filter %}
+{% load time_filters %}
+{% load display_filter %}
+<div class="col-12 col-md-6">
+  <div class="card h-100 shadow-sm border-0 order-card">
+    <!-- Card Header -->
+    <div class="card-header p-3 d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">#{{ order.id }}</h5>
+      {% if order.status == "new" %}
+        <span class="badge bg-info">{{ order|get_display:"status"|title }}</span>
+      {% elif order.status == "confirmed" %}
+        <span class="badge bg-success">{{ order|get_display:"status"|title }}</span>
+      {% elif order.status == "cancelled" %}
+        <span class="badge bg-danger">{{ order|get_display:"status"|title }}</span>
+      {% elif order.status == "completed" %}
+        <span class="badge bg-secondary">{{ order|get_display:"status"|title }}</span>
+      {% endif %}
+    </div>
+    <!-- Card Body -->
+    <div class="card-body">
+      <!-- Client Info -->
+      <div class="d-flex align-items-center mb-3">
+        <div class="flex-grow-1">
+          <h6 class="mb-0">Client</h6>
+          <p class="text-muted mb-0">{{ order.client_name }}</p>
+        </div>
+      </div>
+      <!-- Services -->
+      <div class="accordion" id="servicesAccordion{{ order.id }}">
+        <div class="accordion-item border-0">
+          <h6 class="accordion-header d-flex justify-content-between align-items-center mb-3 services-header cursor-pointer"
+              data-bs-toggle="collapse"
+              data-bs-target="#servicesCollapse{{ order.id }}">
+            Services
+            <span class="badge bg-secondary">{{ order.services|get_all|length }}</span>
+          </h6>
+          <div class="accordion-collapse collapse show"
+               id="servicesCollapse{{ order.id }}">
+            <ul class="list-group list-group-flush">
+              {% for service in order.services|get_all %}
+                <li class="list-group-item border-0 d-flex justify-content-between align-items-center py-2">
+                  <span>{{ service.name }}</span>
+                  <span class="text-muted">{{ service.price }} ₽</span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Master Info -->
+      {% with master=order.master %}
+        <div class="d-flex align-items-center mt-4 pt-3 border-top gap-3">
+          <div class="avatar flex-shrink-0">
+            <span class="initials text-white d-inline-block rounded-circle master-avatar-ph">
+              {% if master.name %}{{ master.name|slice:"1"|title }}{% endif %}
+            </span>
+          </div>
+          <div>
+            <h6 class="mb-0">{{ master.name }}</h6>
+            <p class="text-muted small mb-0">{{ master.bio }}</p>
+            <small class="text-muted">Опыт: {{ master.experience }} лет</small>
+          </div>
+        </div>
+      {% endwith %}
+    </div>
+    <!-- Card Footer -->
+    <div class="card-footer bg-light p-3 d-flex justify-content-between align-items-center">
+      <small class="text-muted">{{ order.appointment_date|local_format }}</small>
+      <a href="./{{ order.id }}" class="btn btn-sm btn-primary">View Details</a>
+    </div>
+  </div>
+</div>

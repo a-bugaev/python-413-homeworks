@@ -1,0 +1,6 @@
+{% comment %} core/templates/registration/login.html {% endcomment %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>

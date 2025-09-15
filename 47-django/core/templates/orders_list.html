@@ -1,0 +1,77 @@
+<!-- /core/templates/orders_list.html -->
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+  Orders List
+{% endblock title %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'css/orders_list.css' %}">
+{% endblock styles %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <h1 class="mb-4">Список заказов</h1>
+        {% comment %} search form {% endcomment %}
+
+        <form class="p-3" method="get" action="{% url 'orders_list' %}">
+          <div class="input-group">
+            <input type="search"
+                   class="form-control"
+                   placeholder="Поиск..."
+                   id="q_text"
+                   name="q_text">
+            <button type="submit" class="btn btn-primary"  aria-describedby="q_text">
+              Искать
+            </button>
+          </div>
+          <div class="mt-3">
+            <div class="input-group">
+              <label class="form-check-label mx-5">Искать в:</label>
+              <div class="form-check form-switch form-check-inline">
+                <input class="form-check-input custom-switcher"
+                       type="checkbox"
+                       role="switch"
+                       id="checkbox_client_name"
+                       name="checkbox_client_name">
+                <label class="form-check-label" for="checkbox_client_name">Имя клинта</label>
+              </div>
+              <div class="form-check form-switch form-check-inline">
+                <input class="form-check-input custom-switcher"
+                       type="checkbox"
+                       role="switch"
+                       id="checkbox_phone"
+                       name="checkbox_phone">
+                <label class="form-check-label" for="checkbox_phone">Телефон</label>
+              </div>
+              <div class="form-check form-switch form-check-inline">
+                <input class="form-check-input custom-switcher"
+                       type="checkbox"
+                       role="switch"
+                       id="checkbox_comment"
+                       name="checkbox_comment">
+                <label class="form-check-label" for="checkbox_comment">Комментарий</label>
+              </div>
+            </div>
+          </div>
+        </form>
+        <!-- Orders Grid -->
+        <div class="row row-cols-1 row-cols-md-2 g-4" id="ordersContainer">
+          {% for order in orders %}
+
+            {% include "includes/order_card.html" %}
+
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% block script %}
+    <script src="{% static 'js/orders_list.js' %}"></script>
+  {% endblock script %}
+{% endblock content %}

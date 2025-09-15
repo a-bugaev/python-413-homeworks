@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% comment %} users/templates/login_registration.html {% endcomment %}
+
+{% comment %}
+login
+username
+password
+
+registration:
+username
+password1
+password2
+email
+{% endcomment %}
+
+{% load static %}
+{% load form_filters %}
+
+{% block title %}
+  {{ title }}
+{% endblock title %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock styles %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <h1 class="mb-3 text-center">{{ title }}</h1>
+        <form method="post" class="custom-form">
+          {% csrf_token %}
+
+          {% include "includes/form_field.html" with form=form field=form.username type="text" %}
+
+          {% if request.path == "/users/login/" %}
+
+            {% include "includes/form_field.html" with form=form field=form.password type="password" %}
+
+          {% endif %}
+          {% if request.path == "/users/register/" %}
+
+            {% include "includes/form_field.html" with form=form field=form.password1 type="password" %}
+            {% include "includes/form_field.html" with form=form field=form.password2 type="password" %}
+            {% include "includes/form_field.html" with form=form field=form.email type="text" %}
+
+          {% endif %}
+          {% if form|get_non_field_errors|length > 0 %}
+            {% for error_msg in form|get_non_field_errors %}
+              <span class="form-text error-span">{{ error_msg }}</span>
+            {% endfor %}
+          {% endif %}
+          <button type="submit" class="btn btn-primary mx-auto d-block">
+            {{ button_text }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block script %}
+  <script defer src="{% static 'js/forms.js' %}"></script>
+{% endblock script %}

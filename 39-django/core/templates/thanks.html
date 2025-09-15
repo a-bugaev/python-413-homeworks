@@ -1,0 +1,27 @@
+<!-- /core/templates/thanks.html -->
+{% extends "base.html" %}
+
+{% block title %}
+    Спасибо!
+{% endblock title %}
+
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/thanks.css' %}">
+{% endblock head %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h1 class="display-3 text-success mb-4">Принято!</h1>
+                <h2 class="mb-4">Спасибо за заявку!</h2>
+                <p class="lead mb-5">
+                    Ваше сообщение успешно отправлено. Мы свяжемся с вами в ближайшее время, чтобы обсудить детали.
+                </p>
+                <a href="{% url 'landing' %}" class="btn btn-primary btn-lg">Вернуться на главную</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

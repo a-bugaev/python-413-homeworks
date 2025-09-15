@@ -1,0 +1,95 @@
+<!-- /core/templates/orders_list.html -->
+{% extends "base.html" %}
+
+{% load static %}
+{% load dict_filters %}
+
+{% block title %}
+  Orders List
+{% endblock title %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/orders_list.css' %}">
+{% endblock head %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <h1 class="mb-4">Orders List</h1>
+        <!-- Orders Grid -->
+        <div class="row row-cols-1 row-cols-md-2 g-4" id="ordersContainer">
+          {% for order in orders %}
+            <div class="col">
+              <div class="card h-100 shadow-sm border-0 order-card">
+                <!-- Card Header -->
+                <div class="card-header bg-primary text-white p-3 d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">#{{ order.id }}</h5>
+                  <span class="badge bg-success">{{ order.status|title }}</span>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <!-- Client Info -->
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-0">Client</h6>
+                      <p class="text-muted mb-0">{{ order.client_name }}</p>
+                    </div>
+                  </div>
+                  <!-- Services -->
+                  <div class="accordion" id="servicesAccordion{{ order.id }}">
+                    <div class="accordion-item border-0">
+                      <h6 class="accordion-header d-flex justify-content-between align-items-center mb-3 services-header"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#servicesCollapse{{ order.id }}">
+                        Services
+                        <span class="badge bg-secondary">{{ order.services|length }}</span>
+                      </h6>
+                      <div class="accordion-collapse collapse show"
+                           id="servicesCollapse{{ order.id }}">
+                        <ul class="list-group list-group-flush">
+                          {% for service_id in order.services %}
+                            {% with service_obj=services|get_by_id:service_id %}
+                              <li class="list-group-item border-0 d-flex justify-content-between align-items-center py-2">
+                                <span>{{ service_obj.name }}</span>
+                                <span class="text-muted">{{ service_obj.price }} ₽</span>
+                              </li>
+                            {% endwith %}
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Master Info -->
+                  {% with master=masters|get_item:order.master_id %}
+                    <div class="d-flex align-items-center mt-4 pt-3 border-top gap-3">
+                      <div class="avatar flex-shrink-0">
+                        <span class="initials bg-primary text-white d-inline-block rounded-circle master-avatar-ph">
+                          {% if master.name %}{{ master.name|slice:"1"|title }}{% endif %}
+                        </span>
+                      </div>
+                      <div>
+                        <h6 class="mb-0">{{ master.name }}</h6>
+                        <p class="text-muted small mb-0">{{ master.description }}</p>
+                        <small class="text-muted">Опыт: {{ master.work_experience }} лет</small>
+                      </div>
+                    </div>
+                  {% endwith %}
+                </div>
+                <!-- Card Footer -->
+                <div class="card-footer bg-light p-3 d-flex justify-content-between align-items-center">
+                  <small class="text-muted">{{ order.date|date:"d M Y" }}</small>
+                  <a href="./{{ order.id }}" class="btn btn-sm btn-primary">View Details</a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% block script %}
+    <script src="{% static 'js/orders_list.js' %}"></script>
+  {% endblock script %}
+{% endblock content %}

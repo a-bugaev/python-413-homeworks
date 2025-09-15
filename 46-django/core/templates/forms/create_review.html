@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+<!-- /core/templates/reviews.html -->
+{% comment %}
+client_name
+text
+master
+rating
+{% endcomment %}
+
+{% load static %}
+
+{% block title %}
+  Отзывы
+{% endblock title %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'css/reviews.css' %}">
+  <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock styles %}
+
+{% load form_filters %}
+{% load range_filter %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <h1 class="mb-3">Оставить отзыв</h1>
+        <form method="post" class="custom-form review-form">
+          {% csrf_token %}
+          {% comment %} CLIENT NAME  {% endcomment %}
+
+          <div class="input-group mb-3">
+            <input class="form-control {% if form|get_errors_for_field:"client_name"|length > 0 %}error-highlight{% endif %}"
+                   name="client_name"
+                   maxlength="100"
+                   type="text"
+                   required=""
+                   id="id_client_name"
+                   placeholder="{{ form.client_name.label }}"
+                   aria-label="{{ form.client_name.label }}">
+            {% if form|get_errors_for_field:"client_name"|length > 0 %}
+              {% for error_msg in form|get_errors_for_field:"client_name" %}
+                <span class="form-text error-span">{{ error_msg }}</span>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="input-group mb-3">
+            <textarea name="text"
+                      class="form-control {% if form|get_errors_for_field:"text"|length > 0 %}error-highlight{% endif %}"
+                      rows="5"
+                      id="id_text"
+                      placeholder="{{ form.text.label }}"></textarea>
+            {% if form|get_errors_for_field:"text"|length > 0 %}
+              {% for error_msg in form|get_errors_for_field:"text" %}
+                <span class="form-text error-span">{{ error_msg }}</span>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="row d-flex justify-content-between">
+            <div class="input-group mb-3 w-50">
+              <div class="placeholdered-select-wrapper w-100">
+                <span class="placeholder text-muted">{{ form.master.label }}</span>
+                <select name="master"
+                        id="id_master"
+                        class="form-select {% if form|get_errors_for_field:"master"|length > 0 %}error-highlight{% endif %}">
+                  {% for master in form|get_field_queryset:"master" %}
+                    <option value="{{ master.id }}">{{ master }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              {% if form|get_errors_for_field:"master"|length > 0 %}
+                {% for error_msg in form|get_errors_for_field:"master" %}
+                  <span class="form-text error-span">{{ error_msg }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+            <div class="input-group mb-3 w-auto">
+              <div class="rating-input-wrapper input-group-text p-0">
+                {% for num in form.instance.RATING_MAX|range_1 %}
+                  <i class="bi bi-star-fill mx-1" id="star_{{ num }}"></i>
+                {% endfor %}
+                {{ form.rating }}
+              </div>
+              {% if form|get_errors_for_field:"rating"|length > 0 %}
+                {% for error_msg in form|get_errors_for_field:"rating" %}
+                  <span class="form-text error-span">{{ error_msg }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          {% if form|get_non_field_errors|length > 0 %}
+            {% for error_msg in form|get_non_field_errors %}
+              <span class="form-text error-span">{{ error_msg }}</span>
+            {% endfor %}
+          {% endif %}
+          <button type="submit" class="btn btn-primary mx-auto d-block">
+            Отправить
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% block script %}
+    <script defer src="{% static 'js/forms.js' %}"></script>
+  {% endblock script %}
+{% endblock content %}

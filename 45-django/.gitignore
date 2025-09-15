@@ -1,0 +1,14 @@
+**.mypy_cache
+**__pycache__
+.venv
+screenshots
+media
+
+.env
+*.sqlite3
+poetry.lock
+gitrepo.txt
+*.zip
+draft.*
+PYTHON413*.md
+zip.py

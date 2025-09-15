@@ -1,0 +1,228 @@
+{
+    "GOOGLE_DRIVE_URL": "https://drive.usercontent.google.com/download?id={}&export=download&authuser=0",
+    "PICS_IDS": {
+        "service": {
+            "1": "1_UAdn_9hxRZwhOFFRoRuEGONQzydt9mA",
+            "2": "1VfQ386HcIVFdZYI9naQamYATBO6VSLRK",
+            "3": "1LY067sa2MQ3zCwIfEYFEV4zngCIOyi-9",
+            "4": "1hkj2Xrig9tFa33vgXKr3oBQGkEJ4B614",
+            "5": "1khhiArfQkznQLkBvCaropMiWkOR29MxH",
+            "6": "1x2GovZdrRXz_fM2HCIY20jq-lHQnRDX6",
+            "7": "1se2Jgx51oZ_6wWBRTOvJScMZ3y7SLe2X",
+            "8": "1C55sqVzWVuFiXGxTWgnSAwCvAWzWzT24",
+            "9": "1pL4ko10WTsdImMLVDcIClcQb0BZ6HK8m",
+            "10": "1YOw4BRreGuqrX5p2ROnZJyNCtMph-KNG"
+        },
+        "master": {
+            "1": "14kuXccnYoBkQszGSx9-kPcXa_zF6Jj4b",
+            "2": "1DZQ74pw6rQOlfXMWrda9_nduKnfbbWUi",
+            "3": "1Tebt1j1QtDnn9z_lF06mTgw118oP06KK",
+            "4": "1XJJoMPZmXpg7Ozk_o6ZGBv8q-vzN9qJv",
+            "5": "1zr7juLCqjMsyVTQAI-a01LFEITz8-6DB"
+        },
+        "decor": {
+            "interior": "1gv8U6yYymdg-BLTQiyJB8Mi-DVg9gegP"
+        }
+    },
+    "MASTERS": [
+        {
+            "id": 1,
+            "name": "Эльдар 'Бритва' Рязанов",
+            "description": "Мастер с опытом работы — владелец непревзойденной техники, чьи 'бритвы' (игр.) делают прически идеальными и гладкими.",
+            "work_experience": 10,
+            "services": [
+                1,
+                5,
+                10
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Зоя 'Ножницы' Космодемьянская",
+            "description": "Мастер с 8-летним опытом — настоящий виртуоз 'ножниц', каждый клиент получает уникальный и точный до мелочей образ.",
+            "work_experience": 8,
+            "services": [
+                3,
+                6,
+                7,
+                9
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Борис 'Фен' Пастернак",
+            "description": "Мастер с 12-летним опытом — творец форм, его 'фен' превращает волосы в легкие, вьющиеся и элегантные произведения искусства.",
+            "work_experience": 12,
+            "services": [
+                2,
+                4,
+                8
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Иннокентий 'Лак' Смоктуновский",
+            "description": "Мастер с 15-летним опытом — маг 'лака', создавая на прядях глянцевую или матовую чарму, словно на волшебной палитре.",
+            "work_experience": 15,
+            "services": [
+                1,
+                3,
+                5
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Раиса 'Бигуди' Горбачёва",
+            "description": "Мастер с 9-летним опытом — молчаливая гувернантка стилей, ее 'бигуди' (игр.) всегда приводят в идеальную, неподдельную форму.",
+            "work_experience": 9,
+            "services": [
+                8,
+                3
+            ]
+        }
+    ],
+    "SERVICES": [
+        {
+            "id": 1,
+            "name": "Стрижка под 'Горшок'",
+            "description": "Классическая стрижка",
+            "price": 500
+        },
+        {
+            "id": 2,
+            "name": "Укладка 'Взрыв на макаронной фабрике'",
+            "description": "Стильная укладка",
+            "price": 700
+        },
+        {
+            "id": 3,
+            "name": "Королевское бритье опасной бритвой",
+            "description": "Роскошное бритье",
+            "price": 1000
+        },
+        {
+            "id": 4,
+            "name": "Окрашивание 'Жизнь в розовом цвете'",
+            "description": "Модное окрашивание",
+            "price": 1200
+        },
+        {
+            "id": 5,
+            "name": "Мытье головы 'Душ впечатлений'",
+            "description": "Релаксирующее мытье",
+            "price": 300
+        },
+        {
+            "id": 6,
+            "name": "Стрижка бороды 'Боярин'",
+            "description": "Стильная стрижка бороды",
+            "price": 600
+        },
+        {
+            "id": 7,
+            "name": "Массаж головы 'Озарение'",
+            "description": "Релаксирующий массаж",
+            "price": 800
+        },
+        {
+            "id": 8,
+            "name": "Укладка 'Ветер в голове'",
+            "description": "Легкая укладка",
+            "price": 400
+        },
+        {
+            "id": 9,
+            "name": "Плетение косичек 'Викинг'",
+            "description": "Стильное плетение",
+            "price": 900
+        },
+        {
+            "id": 10,
+            "name": "Полировка лысины до блеска",
+            "description": "Блестящая полировка",
+            "price": 200
+        }
+    ],
+    "ORDERS": [
+        {
+            "id": 1,
+            "client_name": "Пётр 'Безголовый' Головин",
+            "services": [
+                1,
+                10
+            ],
+            "master_id": 1,
+            "date": "2025-03-20",
+            "status": "new"
+        },
+        {
+            "id": 2,
+            "client_name": "Василий 'Кудрявый' Прямиков",
+            "services": [
+                2
+            ],
+            "master_id": 2,
+            "date": "2025-03-21",
+            "status": "confirmed"
+        },
+        {
+            "id": 3,
+            "client_name": "Афанасий 'Бородач' Бритвенников",
+            "services": [
+                3,
+                6,
+                7
+            ],
+            "master_id": 3,
+            "date": "2025-03-19",
+            "status": "cancelled"
+        },
+        {
+            "id": 4,
+            "client_name": "Себастьян 'Седой' Крашенов",
+            "services": [
+                4,
+                8
+            ],
+            "master_id": 4,
+            "date": "2025-03-22",
+            "status": "completed"
+        }
+    ],
+    "REVIEWS": [
+        {
+            "id": 1,
+            "text": "Лучший барбер в городе! Стилисты очень профессиональные и предлагают отличные варианты.\nС удовольствием возвращаюсь сюда уже второй год.",
+            "client_name": "Андрей",
+            "master": 5,
+            "services": [
+                1,
+                10
+            ],
+            "rating": 5
+        },
+        {
+            "id": 2,
+            "text": "Идеальный уход за бородой. Дмитрий мастерски подстриг и отполировал мою бороду. Теперь она выглядит так, как будто только что выросла!",
+            "client_name": "Дмитрий",
+            "master": 4,
+            "services": [
+                3,
+                6,
+                7
+            ],
+            "rating": 4
+        },
+        {
+            "id": 3,
+            "text": "Профессиональный сервис и безупречный интерьер. Артем знает все последние модные тенденции и всегда находит идеальный вариант для моей формы лица.",
+            "client_name": "Иван",
+            "master": 3,
+            "services": [
+                4,
+                8
+            ],
+            "rating": 5
+        }
+    ]
+}

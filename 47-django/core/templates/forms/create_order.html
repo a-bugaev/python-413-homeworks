@@ -1,0 +1,71 @@
+{% comment %} core/templates/forms/create_order.html {% endcomment %}
+
+{% comment %}
+  fields:
+    client_name
+    phone
+    master
+    services
+    comment
+{% endcomment %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% load form_filters %}
+
+<form method="post" class="custom-form order-form">
+  {% csrf_token %}
+  {% comment %} NAME {% endcomment %}
+
+  {% include "includes/form_field.html" with form=form field=form.client_name type="text" %}
+
+  {% comment %} PHONE {% endcomment %}
+
+  <div class="input-group mb-3 w-100">
+    <span class="input-group-text">🇷🇺</span>
+    <input type="tel"
+           class="form-control phone-input {% if form|get_errors_for_field:"phone"|length > 0 %}error-highlight{% endif %}"
+           value="+7 (___) ___ __ __"
+           name="phone"
+           maxlength="19"
+           required=""
+           aria-invalid="true"
+           placeholder="{{ form.phone.label }}"
+           aria-describedby="id_phone_error"
+           id="id_phone">
+    {% if form|get_errors_for_field:"phone"|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:"phone" %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+  {% comment %} MASTER {% endcomment %}
+
+  {% include "includes/form_field.html" with form=form field=form.master type="select" %}
+
+  {% comment %} SERVICES {% endcomment %}
+
+  {% include "includes/form_field.html" with form=form field=form.services type="select_mult" %}
+
+  {% comment %} COMMENT {% endcomment %}
+
+  {% include "includes/form_field.html" with form=form field=form.comment type="textarea" %}
+
+  {% comment %} в модели стоит заглушка на auto_now {% endcomment %}
+
+  {% comment %} <div id="appointment_timestamp_wrapper" class="input-group mb-3 date w-100">
+  <input class="form-control" type="datetime-local" name="appoindment_date" id="id_appoindment_date" required="" value="" min="" max="" step="30" placeholder="{{ form.appointment_date.label }}">
+  </div> {% endcomment %}
+
+  {% if form|get_non_field_errors|length > 0 %}
+    {% for error_msg in form|get_non_field_errors %}
+      <span class="form-text error-span">{{ error_msg }}</span>
+    {% endfor %}
+  {% endif %}
+  <button type="submit" class="btn btn-primary w-100">Отправить</button>
+</form>
+<script defer>
+    window.masters_services_arr = {{ masters_services_json|safe }}
+</script>
+<script defer src="{% static 'js/forms.js' %}"></script>

@@ -1,0 +1,75 @@
+/* core/static/css/order_details.css */
+
+.order-details-container .text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.order-details-container .card-header h6,
+.order-details-container .card-header h5 {
+    font-weight: 600;
+}
+
+.order-details-container .badge {
+    font-size: 0.75rem;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
+
+.order-header-card .card-header {
+    background-color: var(--primary-color);
+}
+
+.order-header-card .card-header > * {
+    display: inline;
+    width: auto;
+}
+
+/* Responsive table enhancements */
+@media (max-width: 768px) {
+    .order-details-container .table-responsive {
+        overflow-x: auto;
+    }
+}
+
+/* Custom color overrides */
+.order-details-container .bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.order-details-container .bg-secondary {
+    background-color: var(--secondary-color) !important;
+    color: white !important;
+}
+
+.order-details-container .btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.order-details-container .btn-outline-secondary {
+    color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+}
+
+.order-details-container .text-dark {
+    color: var(--dark-color) !important;
+}
+
+.order-details-container .bg-light {
+    background-color: var(--light-color) !important;
+}
+
+.order-details-container .service-description {
+    max-width: 200px;
+}
+
+.order-details-container .master-description {
+    max-width: 500px;
+}

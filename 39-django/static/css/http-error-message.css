@@ -1,0 +1,12 @@
+.http-error-message {
+    display: block;
+    margin: 3rem auto;
+}
+
+.http-error-message h1 {
+    color: var(--dark-color);
+}
+
+.http-error-message p {
+    color: var(--secondary-color);
+}

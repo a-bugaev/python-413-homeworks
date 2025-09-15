@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+
+{% comment %} templates/home.html {% endcomment %}
+{% load static %}
+{% load dict_filters %}
+{% load time_filters %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+{% endblock head %}
+
+{% block title %}
+  Барбершоп лендинг
+{% endblock title %}
+
+{% block content %}
+  {% comment %} Navbar {% endcomment %}
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-shop-window me-2"></i>BARBER'S HUB
+      </a>
+      <button class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Главная</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#services">Услуги</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#masters">Мастера</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">О нас</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Контакты</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  {% comment %} Hero Section {% endcomment %}
+  <section class="hero-section text-center">
+    <div class="container">
+      <img src="{% static 'img/interior.webp' %}"
+           alt="Hero Image"
+           class="hero-background-img"
+           width="100%%"
+           height="100%%">
+      <h1>Профессиональные стрижки для мужской аудитории</h1>
+      <p class="lead">Ваш стиль. Ваш образ. Наша экспертиза.</p>
+      <a href="#contact" class="btn btn-primary btn-lg">Записаться на стрижку</a>
+    </div>
+  </section>
+  {% comment %} Services Section {% endcomment %}
+  <section id="services" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="display-4">Наши услуги</h2>
+        <p class="lead text-muted">Предлагаем широкий спектр профессиональных услуг для мужской красоты</p>
+      </div>
+      <div class="row g-4">
+        {% for service in services %}
+          <div class="col-md-6 col-lg-4">
+            <div class="card service-card h-100">
+              <div class="card-body text-center p-4">
+                <div class="image mb-3 mx-auto">
+                  <img src="{{ services_imgs|get_item:service.id }}"
+                       alt="{{ service.name }}"
+                       height="auto"
+                       width="100%">
+                </div>
+                <h5 class="card-title">{{ service.name }}</h5>
+                <p class="card-text">{{ service.description }}</p>
+                <p class="fw-bold text-primary">{{ service.price }} &#x20BD;</p>
+                <a href="#contact" class="btn btn-learn-more mt-3">Записаться</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% comment %} Masters Section {% endcomment %}
+  <section id="masters" class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="display-4">Наши мастера</h2>
+        <p class="lead text-muted">Профессиональные барберы с многолетним опытом работы</p>
+      </div>
+      <div class="row g-4">
+        {% for master in masters %}
+          <div class="col-md-6 col-lg-4">
+            <div class="card master-card h-100">
+              <img src="{{ masters_imgs|get_item:master.id }}"
+                   class="card-img-top square-image"
+                   alt="{{ master.name }} фото"
+                   width="100%"
+                   height="auto">
+              <div class="card-body text-center">
+                <h5 class="card-title master-name">{{ master.name }}</h5>
+                <p class="card-text master-title">Опыт работы: {{ master.work_experience|get_year_form }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% comment %} About Section {% endcomment %}
+  <section id="about" class="py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="{% static 'img/interior.webp' %}"
+               alt="Barber shop interior"
+               class="img-fluid rounded shadow"
+               width="auto"
+               height="auto">
+        </div>
+        <div class="col-lg-6">
+          <h2 class="display-4 mb-4">О Barber's Hub</h2>
+          <p class="lead mb-4">
+            Мы команда профессиональных барберов с многолетним опытом работы, которые увлечены искусством
+            создания стильной мужской прически.
+          </p>
+          <p class="mb-4">
+            Наш барбершоп создан с учетом всех потребностей мужчи, стремящейся выглядеть стильно и уверенно.
+            Мы предлагаем:
+          </p>
+          <ul>
+            <li>Использование только высококачественных инструментов и средств</li>
+            <li>Индивидуальный подход к каждому клиенту</li>
+            <li>Современное оборудование для комфортной стрижки</li>
+            <li>Огромный выбор стилей и технологий стрижки</li>
+          </ul>
+          <a href="#contact" class="btn btn-learn-more mt-3">Узнать больше</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% comment %} Testimonials Section {% endcomment %}
+  <section id="testimonials" class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="display-4">Отзывы клиентов</h2>
+        <p class="lead text-muted">Наши клиенты говорят о нас</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card testimonial-card h-100 text-center">
+            <div class="card-body p-4">
+              <div class="quote-icon mb-3">
+                <i class="bi bi-quote"></i>
+              </div>
+              <p class="card-text">
+                "Лучший барбер в городе! Стилисты очень профессиональные и предлагают отличные варианты.
+                С удовольствием возвращаюсь сюда уже второй год."
+              </p>
+              <div class="d-flex justify-content-center align-items-center mt-4">
+                <span class="client-avatar">А</span>
+                <div class="px-3 text-start">
+                  <h5 class="mb-0">Андрей</h5>
+                  <small class="text-muted">Стрижка "Бэйдж"</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card testimonial-card h-100">
+            <div class="card-body text-center p-4">
+              <div class="quote-icon mb-3">
+                <i class="bi bi-quote"></i>
+              </div>
+              <p class="card-text">
+                "Идеальный уход за бородой. Дмитрий мастерски подстриг и отполировал мою бороду. Теперь
+                она выглядит так, как будто только что выросла!"
+              </p>
+              <div class="d-flex justify-content-center align-items-center mt-4">
+                <span class="client-avatar">Д</span>
+                <div class="px-3 text-start">
+                  <h5 class="mb-0">Дмитрий</h5>
+                  <small class="text-muted">Уход за бородой</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card testimonial-card h-100">
+            <div class="card-body text-center p-4">
+              <div class="quote-icon mb-3">
+                <i class="bi bi-quote"></i>
+              </div>
+              <p class="card-text">
+                "Профессиональный сервис и безупречный интерьер. Артем знает все последние модные
+                тенденции и всегда находит идеальный вариант для моей формы лица."
+              </p>
+              <div class="d-flex justify-content-center align-items-center mt-4">
+                <span class="client-avatar">И</span>
+                <div class="px-3 text-start">
+                  <h5 class="mb-0">Иван</h5>
+                  <small class="text-muted">Триподная стрижка</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% comment %} Contact Section {% endcomment %}
+  <section id="contact" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="display-4">Контакты</h2>
+        <p class="lead text-muted">Пишите нам или звоните - мы ждем вас!</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="card shadow">
+            <div class="card-body p-4">
+              <form>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Ваше имя</label>
+                  <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Телефон</label>
+                  <input type="tel" class="form-control" id="phone" required>
+                </div>
+                <div class="mb-3">
+                  <label for="message" class="form-label">Сообщение</label>
+                  <textarea class="form-control" id="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Отправить</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <div class="card bg-light shadow">
+            <div class="card-body p-4">
+              <h4 class="mb-3">Наш адрес</h4>
+              <p class="mb-1">ул. Торговая, 123</p>
+              <p class="mb-1">Бишкек, Кыргызстан</p>
+              <h4 class="mb-3 mt-4">Часы работы</h4>
+              <p class="mb-1">Пн-Пт: 10:00 - 22:00</p>
+              <p class="mb-1">Сб-Вс: 11:00 - 20:00</p>
+              <h4 class="mb-3 mt-4">Телефон</h4>
+              <p class="mb-1">+996 99 123 4567</p>
+              <h4 class="mb-3 mt-4">Email</h4>
+              <p class="mb-1">info@barbershub.kg</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card shadow">
+            <div class="card-body p-4">
+              <h4 class="mb-3">Наше расположение</h4>
+              <div class="map mb-4">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.046858636989!2d74.59831527656492!3d42.87185510261394!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389eb7f083356b53%3A0xca6368f65146c8b5!2sBLACKROCK%20barbershop!5e0!3m2!1snl!2snl!4v1753526812312!5m2!1snl!2snl"
+                        width="100%"
+                        height="250"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
+              <div class="mb-3">
+                <h5 class="mb-2">Подпишитесь на наши соцсети</h5>
+                <div class="d-flex gap-2 justify-content-center">
+                  <a href="#" class="btn btn-outline-primary"><i class="bi bi-facebook me-1"></i>Facebook</a>
+                  <a href="#" class="btn btn-outline-primary"><i class="bi bi-instagram me-1"></i>Instagram</a>
+                  <a href="#" class="btn btn-outline-primary"><i class="bi bi-telegram me-1"></i>Telegram</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% comment %} Footer {% endcomment %}
+  <footer class="footer text-center text-md-start">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4 mb-md-0 px-5">
+          <h5 class="mb-3">BARBER'S HUB</h5>
+          <p>Мужские стрижки и уход за прической с профессиональным подходом.</p>
+        </div>
+        <div class="col-md-4 mb-4 mb-md-0 px-5">
+          <h5 class="mb-3">Быстрые ссылки</h5>
+          <ul>
+            <li>
+              <a href="#">Главная</a>
+            </li>
+            <li>
+              <a href="#services">Услуги</a>
+            </li>
+            <li>
+              <a href="#masters">Мастера</a>
+            </li>
+            <li>
+              <a href="#about">О нас</a>
+            </li>
+            <li>
+              <a href="#contact">Контакты</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4 px-5">
+          <h5 class="mb-3">Контакты</h5>
+          <ul>
+            <li>
+              <i class="bi bi-envelope me-2"></i> info@barbershub.kg
+            </li>
+            <li>
+              <i class="bi bi-telephone me-2"></i> +996 99 123 4567
+            </li>
+            <li>
+              <i class="bi bi-geo-alt me-2"></i> ул. Торговая, 123, Бишкек
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright px-5">
+        <p class="mb-0">&#xA9; 2023 Barber's Hub. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+{% endblock content %}

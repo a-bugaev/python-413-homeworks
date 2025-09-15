@@ -1,0 +1,31 @@
+[project]
+name = "django-barbershub"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "a-bugaev",email = "a.bugaev.97@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "django (>=5.2.3,<6.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
+    "django-extensions (>=4.1,<5.0)",
+]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+django-stubs = "^5.2.1"
+mypy = "^1.16.1"
+pylint = "^3.3.7"
+django-debug-toolbar = "^5.2.0"
+djlint = "^1.36.4"
+selenium = "^4.34.2"
+pillow = "^11.3.0"
+requests = "^2.32.4"
+types-requests = "^2.32.4.20250809"
+types-tqdm = "^4.67.0.20250809"

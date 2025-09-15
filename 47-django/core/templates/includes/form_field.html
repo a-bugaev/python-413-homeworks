@@ -1,0 +1,100 @@
+{% load form_filters %}
+
+{% comment %}
+context:
+form
+field
+type  text|password|select|select_mult|textarea
+{% endcomment %}
+
+{% if type == "text" %}
+  <div class="input-group mb-3">
+    <input class="form-control {% if form|get_errors_for_field:field.html_name|length > 0 %}error-highlight{% endif %}"
+           name="{{ field.html_name }}"
+           maxlength="{{ field.field.maxlength }}"
+           type="text"
+           {% if field.field.required %}required=""{% endif %}
+           id="{{ field.id_for_label }}"
+           placeholder="{{ field.label }}"
+           aria-label="{{ field.label }}">
+    {% if form|get_errors_for_field:field.html_name|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:field.html_name %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endif %}
+{% if type == "password" %}
+  <div class="input-group mb-3">
+    <input class="form-control {% if form|get_errors_for_field:field.html_name|length > 0 %}error-highlight{% endif %}"
+           name="{{ field.html_name }}"
+           maxlength="{{ field.field.maxlength }}"
+           type="password"
+           {% if field.field.required %}required=""{% endif %}
+           id="{{ field.id_for_label }}"
+           placeholder="{{ field.label }}"
+           aria-label="{{ field.label }}">
+    {% if form|get_errors_for_field:field.html_name|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:field.html_name %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endif %}
+{% if type == "select" %}
+  <div class="input-group mb-3">
+    <div class="placeholdered-select-wrapper w-100">
+      <span class="placeholder text-muted">{{ field.label }}</span>
+      <select name="{{ field.html_name }}"
+              {% if field.field.required %}required=""{% endif %}
+              id="{{ field.id_for_label }}"
+              class="form-select {% if form|get_errors_for_field:field.html_name|length > 0 %}error-highlight{% endif %}">
+        {% for item in form|get_field_queryset:field.html_name %}
+          <option value="{{ item.id }}">{{ item }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% if form|get_errors_for_field:field.html_name|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:field.html_name %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endif %}
+{% if type == "select_mult" %}
+  <div class="input-group mb-3">
+    <div class="placeholdered-select-wrapper w-100">
+      <span class="placeholder text-muted">{{ field.label }}</span>
+      <select name="{{ field.html_name }}"
+              {% if field.field.required %}required=""{% endif %}
+              id="{{ field.id_for_label }}"
+              multiple=""
+              aria-describedby="{{ field.id_for_label }}_error"
+              class="form-select {% if form|get_errors_for_field:field.html_name|length > 0 %}error-highlight{% endif %}">
+        {% for item in form|get_field_queryset:field.html_name %}
+          <option value="{{ item.id }}">{{ item }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% if form|get_errors_for_field:field.html_name|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:field.html_name %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endif %}
+{% if type == "textarea" %}
+  <div class="input-group mb-3">
+    <textarea name="{{ field.html_name }}"
+              class="form-control {% if form|get_errors_for_field:field.html_name|length > 0 %}error-highlight{% endif %}"
+              rows="5"
+              maxlength="{{ field.field.maxlength }}"
+              id="{{ field.id_for_label }}"
+              placeholder="{{ field.label }}"></textarea>
+    {% if form|get_errors_for_field:field.html_name|length > 0 %}
+      {% for error_msg in form|get_errors_for_field:field.html_name %}
+        <span class="form-text error-span">{{ error_msg }}</span>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endif %}

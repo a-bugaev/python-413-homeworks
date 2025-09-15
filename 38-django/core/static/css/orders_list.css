@@ -1,0 +1,64 @@
+/* python core/static/css/orders_list.css */
+:root {
+    --primary-color: #d35400;
+    --secondary-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+.card-header {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.accordion-body {
+    padding-top: 0 !important;
+}
+
+.initials {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.master-avatar-ph {
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.order-card {
+    transition: transform 0.3s;
+    border-radius: 10px;
+    border: none;
+    overflow: hidden;
+    height: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.order-card:hover {
+    transform: translateY(-10px);
+}
+
+.card-footer {
+    background-color: var(--light-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #e24300;
+    border-color: #e24300;
+}

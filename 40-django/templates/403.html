@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% comment %} templates/home.html {% endcomment %}
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'css/http-error-message.css' %}">
+{% endblock styles %}
+
+{% block title %}
+  Доступ запрещён
+{% endblock title %}
+
+{% block content %}
+  <center class="http-error-message">
+    <h1>403 Forbidden</h1>
+    <p>Oops! You're trying to access a page that you don't have permission to view.</p>
+    <a href="{% url 'landing' %}" class="btn btn-primary">Go Back</a>
+  </center>
+{% endblock content %}

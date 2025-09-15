@@ -1,0 +1,73 @@
+/* Core base styles */
+:root {
+    --primary-color: #d35400;
+    --secondary-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
+    --light-accent: rgb(251, 254, 255);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--dark-color);
+    background-color: var(--light-color);
+}
+
+body > div.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex-grow: 1;
+}
+
+/* Button styles */
+.btn-primary,
+.btn-outline-primary {
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
+
+.custom-switcher {
+    border-color: var(--primary-color);
+}
+
+.custom-switcher:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.custom-switcher:focus {
+    border-color: rgba(211, 84, 0, 0.5);
+    box-shadow: 0 0 0 .25rem rgba(211, 84, 0, 0.25);
+}
+
+.custom-switcher:focus:not(.custom-switcher:checked) {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba(211, 84, 0, 0.5)'/></svg>");
+}
+
+.toast .toast-body {
+    background-color: rgba(211, 84, 0, 0.25);
+}

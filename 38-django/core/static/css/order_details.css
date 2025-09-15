@@ -1,0 +1,65 @@
+/* Custom styles for order details */
+:root {
+    --primary-color: #d35400;
+    --secondary-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
+}
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-header h6,
+.card-header h5 {
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.75rem;
+}
+
+/* Responsive table enhancements */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+}
+
+/* Custom color overrides */
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.bg-secondary {
+    background-color: var(--secondary-color) !important;
+    color: white !important;
+}
+
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.btn-outline-secondary {
+    color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+}
+
+.text-dark {
+    color: var(--dark-color) !important;
+}
+
+.bg-light {
+    background-color: var(--light-color) !important;
+}
+
+.service-description {
+    max-width: 200px;
+}
+
+.master-description {
+    max-width: 500px;
+}

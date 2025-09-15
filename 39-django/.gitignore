@@ -1,0 +1,16 @@
+**.mypy_cache
+**__pycache__
+.vscode
+.venv
+test
+
+.env
+*.sqlite3
+notes.txt
+poetry.lock
+gitrepo.txt
+.djlint*
+zip.py
+*.zip
+draft.*
+PYTHON413*.md
